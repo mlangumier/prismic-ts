@@ -1,0 +1,27 @@
+{
+  "_cts": {
+    "homepage": {},
+    "experience": {},
+    "thematique": {}
+  },
+  "slices": {
+    "ImageTextCta": {
+      "default": {
+        "primary": {}
+      }
+    },
+    "TextBlock": {
+      "default": {
+        "primary": {}
+      },
+      "textBlockColumns": {
+        "primary": {}
+      }
+    },
+    "CardImageText": {
+      "default": {
+        "primary": {}
+      }
+    }
+  }
+}
