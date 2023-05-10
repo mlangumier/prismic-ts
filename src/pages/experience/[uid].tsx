@@ -4,7 +4,6 @@ import { PrismicRichText } from "@prismicio/react";
 import { Content, predicate } from "@prismicio/client";
 import * as prismicH from "@prismicio/helpers";
 import { createClient, linkResolver } from "../../../prismicio";
-import { CardImageText } from "../../../slices";
 import { PrismicNextImage } from "@prismicio/next";
 
 interface IProps {
@@ -13,8 +12,6 @@ interface IProps {
 }
 
 const Page: NextPage<IProps> = ({ page, thematiques }) => {
-  console.log("EXP:", thematiques.results);
-
   return (
     <>
       <Head>
@@ -29,28 +26,47 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
           <div className="text-3xl">
             <PrismicRichText field={page.data.title} />
           </div>
+
           <PrismicRichText field={page.data.description} />
+
+          <div className="mt-4 flex justify-center gap-4">
+            <p>Localisations :</p>
+            {page.data.locations.map(({ region, city }, i) => {
+              if (city.id) {
+                return (
+                  <p key={i}>
+                    {city.data.name} ({region.data.name})
+                  </p>
+                );
+              } else {
+                return <p key={i}>{region.data.name}</p>;
+              }
+            })}
+          </div>
         </div>
 
         <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
           <h4 className="text-xl mb-6">Thématiques</h4>
           <div className="flex justify-center items-center gap-4">
             {thematiques.results?.map(
-              (thematique: Content.ThematiqueDocument) => (
-                <div
-                  className="relative flex flex-col justify-center items-center w-max-[250px] py-4 px-6 mx-2 shadow-md hover:shadow-xl rounded-xl"
-                  key={thematique.id}
-                >
-                  <PrismicNextImage
-                    field={thematique.data.image}
-                    imgixParams={{ sat: -75 }}
-                    className=""
-                  />
-                  <div className="mt-4">
-                    <PrismicRichText field={thematique.data.title} />
+              (thematique: Content.ThematiqueDocument) => {
+                console.log(thematique);
+                return (
+                  <div
+                    className="relative flex flex-col justify-center items-center w-max-[250px] py-4 px-6 mx-2 shadow-md hover:shadow-xl rounded-xl"
+                    key={thematique.id}
+                  >
+                    <PrismicNextImage
+                      field={thematique.data.image}
+                      imgixParams={{ sat: -75 }}
+                      className="max-w-[250px]"
+                    />
+                    <div className="mt-4">
+                      <PrismicRichText field={thematique.data.title} />
+                    </div>
                   </div>
-                </div>
-              )
+                );
+              }
             )}
           </div>
         </div>
@@ -69,7 +85,9 @@ export const getStaticProps: GetStaticProps = async ({
 
   const client = createClient({ previewData });
 
-  const page = await client.getByUID("experience", uid);
+  const page = await client.getByUID("experience", uid, {
+    fetchLinks: "region.name",
+  });
 
   const thematiques = await client.get({
     predicates: [

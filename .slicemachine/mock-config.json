@@ -1,8 +1,12 @@
 {
   "_cts": {
     "homepage": {},
-    "experience": {},
-    "thematique": {}
+    "experience": {
+      "locations": {}
+    },
+    "thematique": {},
+    "region": {},
+    "city": {}
   },
   "slices": {
     "ImageTextCta": {

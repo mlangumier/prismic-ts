@@ -16,6 +16,8 @@ export function linkResolver(doc: any) {
       return `/experience/${doc.uid}`;
     case "thematique":
       return `/thematique/${doc.uid}`;
+    case "region":
+      return `/location/${doc.uid}`;
     default:
       return null;
   }

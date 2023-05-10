@@ -38,16 +38,6 @@
           "thumbnails": []
         }
       },
-      "thematique": {
-        "type": "Link",
-        "config": {
-          "label": "Thematique",
-          "select": "document",
-          "customtypes": [
-            "thematique"
-          ]
-        }
-      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

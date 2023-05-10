@@ -1,7 +1,7 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "among"
+    "value": "card"
   },
   "title": {
     "__TYPE__": "StructuredTextContent",
@@ -9,7 +9,7 @@
       {
         "type": "heading2",
         "content": {
-          "text": "Taught"
+          "text": "Floating"
         }
       }
     ]
@@ -20,8 +20,38 @@
       {
         "type": "paragraph",
         "content": {
-          "text": "Incididunt magna quis aliquip. Sit esse tempor incididunt sint aute in ea."
+          "text": "Magna ad id eu ut Lorem est aliquip sunt ut ad sunt fugiat culpa enim sit. Qui sit magna ipsum pariatur."
         }
+      }
+    ]
+  },
+  "locations": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "region",
+            {
+              "__TYPE__": "LinkContent",
+              "value": {
+                "__TYPE__": "DocumentLink",
+                "id": "mock_document_id"
+              }
+            }
+          ],
+          [
+            "city",
+            {
+              "__TYPE__": "LinkContent",
+              "value": {
+                "__TYPE__": "DocumentLink",
+                "id": "mock_document_id"
+              }
+            }
+          ]
+        ]
       }
     ]
   },

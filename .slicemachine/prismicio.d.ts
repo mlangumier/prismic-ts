@@ -6,6 +6,30 @@ import type * as prismic from "@prismicio/client";
 type Simplify<T> = {
     [KeyType in keyof T]: T[KeyType];
 };
+/** Content for City documents */
+interface CityDocumentData {
+    /**
+     * Name field in *City*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: city.name
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    name: prismicT.KeyTextField;
+}
+/**
+ * City document from Prismic
+ *
+ * - **API ID**: `city`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CityDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<CityDocumentData>, "city", Lang>;
 /** Content for Experience documents */
 interface ExperienceDocumentData {
     /**
@@ -31,6 +55,17 @@ interface ExperienceDocumentData {
      */
     description: prismicT.RichTextField;
     /**
+     * locations field in *Experience*
+     *
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: experience.locations[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     *
+     */
+    locations: prismicT.GroupField<Simplify<ExperienceDocumentDataLocationsItem>>;
+    /**
      * Slice Zone field in *Experience*
      *
      * - **Field Type**: Slice Zone
@@ -41,6 +76,32 @@ interface ExperienceDocumentData {
      *
      */
     slices: prismicT.SliceZone<ExperienceDocumentDataSlicesSlice>;
+}
+/**
+ * Item in Experience → locations
+ *
+ */
+export interface ExperienceDocumentDataLocationsItem {
+    /**
+     * Region field in *Experience → locations*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: experience.locations[].region
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    region: prismicT.RelationField<"region">;
+    /**
+     * City field in *Experience → locations*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: experience.locations[].city
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    city: prismicT.RelationField<"city">;
 }
 /**
  * Slice for *Experience → Slice Zone*
@@ -86,6 +147,30 @@ type HomepageDocumentDataSlicesSlice = ImageTextCtaSlice | TextBlockSlice;
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<HomepageDocumentData>, "homepage", Lang>;
+/** Content for Region documents */
+interface RegionDocumentData {
+    /**
+     * Name field in *Region*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: region.name
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    name: prismicT.KeyTextField;
+}
+/**
+ * Region document from Prismic
+ *
+ * - **API ID**: `region`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type RegionDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<RegionDocumentData>, "region", Lang>;
 /** Content for Thematique documents */
 interface ThematiqueDocumentData {
     /**
@@ -122,17 +207,6 @@ interface ThematiqueDocumentData {
      */
     image: prismicT.ImageField<never>;
     /**
-     * Thematique field in *Thematique*
-     *
-     * - **Field Type**: Content Relationship
-     * - **Placeholder**: *None*
-     * - **API ID Path**: thematique.thematique
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    thematique: prismicT.RelationField<"thematique">;
-    /**
      * Slice Zone field in *Thematique*
      *
      * - **Field Type**: Slice Zone
@@ -159,7 +233,7 @@ type ThematiqueDocumentDataSlicesSlice = never;
  * @typeParam Lang - Language API ID of the document.
  */
 export type ThematiqueDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<ThematiqueDocumentData>, "thematique", Lang>;
-export type AllDocumentTypes = ExperienceDocument | HomepageDocument | ThematiqueDocument;
+export type AllDocumentTypes = CityDocument | ExperienceDocument | HomepageDocument | RegionDocument | ThematiqueDocument;
 /**
  * Primary content in CardImageText → Primary
  *
@@ -452,6 +526,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { ExperienceDocumentData, ExperienceDocumentDataSlicesSlice, ExperienceDocument, HomepageDocumentData, HomepageDocumentDataSlicesSlice, HomepageDocument, ThematiqueDocumentData, ThematiqueDocumentDataSlicesSlice, ThematiqueDocument, AllDocumentTypes, CardImageTextSliceDefaultPrimary, CardImageTextSliceDefault, CardImageTextSliceVariation, CardImageTextSlice, ImageTextCtaSliceDefaultPrimary, ImageTextCtaSliceDefault, ImageTextCtaSliceImageRightSidePrimary, ImageTextCtaSliceImageRightSide, ImageTextCtaSliceVariation, ImageTextCtaSlice, TextBlockSliceDefaultPrimary, TextBlockSliceDefault, TextBlockSliceTextBlockColumnsPrimary, TextBlockSliceTextBlockColumns, TextBlockSliceVariation, TextBlockSlice };
+        export type { CityDocumentData, CityDocument, ExperienceDocumentData, ExperienceDocumentDataLocationsItem, ExperienceDocumentDataSlicesSlice, ExperienceDocument, HomepageDocumentData, HomepageDocumentDataSlicesSlice, HomepageDocument, RegionDocumentData, RegionDocument, ThematiqueDocumentData, ThematiqueDocumentDataSlicesSlice, ThematiqueDocument, AllDocumentTypes, CardImageTextSliceDefaultPrimary, CardImageTextSliceDefault, CardImageTextSliceVariation, CardImageTextSlice, ImageTextCtaSliceDefaultPrimary, ImageTextCtaSliceDefault, ImageTextCtaSliceImageRightSidePrimary, ImageTextCtaSliceImageRightSide, ImageTextCtaSliceVariation, ImageTextCtaSlice, TextBlockSliceDefaultPrimary, TextBlockSliceDefault, TextBlockSliceTextBlockColumnsPrimary, TextBlockSliceTextBlockColumns, TextBlockSliceVariation, TextBlockSlice };
     }
 }

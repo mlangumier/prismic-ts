@@ -22,24 +22,33 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
       </Head>
 
       <main>
-        <div className="mb-8">
-          <PrismicRichText field={page.data.title} />
-        </div>
+        <div className="my-8 flex flex-col justify-center items-center">
+          <div className="mb-8">
+            <PrismicRichText field={page.data.title} />
+          </div>
 
-        <PrismicNextImage field={page.data.image} imgixParams={{ sat: -75 }} />
+          <div className="max-w-[250px]">
+            <PrismicNextImage
+              field={page.data.image}
+              imgixParams={{ sat: -75 }}
+            />
+          </div>
+        </div>
 
         <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
           <h4 className="text-xl mb-6">Experiences:</h4>
           <div className="flex justify-center items-center gap-4">
             {experiences.results?.map(
-              (experience: Content.ExperienceDocument) => (
-                <div
-                  className="relative flex flex-col justify-center items-center w-max py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
-                  key={experience.id}
-                >
-                  <PrismicRichText field={experience.data.title} />
-                </div>
-              )
+              (experience: Content.ExperienceDocument) => {
+                return (
+                  <div
+                    className="relative flex flex-col justify-center items-center w-max py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
+                    key={experience.id}
+                  >
+                    <PrismicRichText field={experience.data.title} />
+                  </div>
+                );
+              }
             )}
           </div>
         </div>

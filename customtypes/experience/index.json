@@ -30,6 +30,34 @@
           "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
+      "locations": {
+        "type": "Group",
+        "config": {
+          "label": "locations",
+          "fields": {
+            "region": {
+              "type": "Link",
+              "config": {
+                "label": "Region",
+                "select": "document",
+                "customtypes": [
+                  "region"
+                ]
+              }
+            },
+            "city": {
+              "type": "Link",
+              "config": {
+                "label": "City",
+                "select": "document",
+                "customtypes": [
+                  "city"
+                ]
+              }
+            }
+          }
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
