@@ -5,6 +5,7 @@ import { Content, predicate } from "@prismicio/client";
 import * as prismicH from "@prismicio/helpers";
 import { createClient, linkResolver } from "../../../prismicio";
 import { PrismicNextImage } from "@prismicio/next";
+import Link from "next/link";
 
 interface IProps {
   page: Content.ExperienceDocument;
@@ -29,7 +30,7 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
 
           <PrismicRichText field={page.data.description} />
 
-          <div className="mt-4 flex justify-center gap-4">
+          <div className="mt-4 mx-4 flex justify-center items-center gap-4">
             <p>Localisations :</p>
             {page.data.locations.map(({ region, city }, i) => {
               if (city.id) {
@@ -39,7 +40,18 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
                   </p>
                 );
               } else {
-                return <p key={i}>{region.data.name}</p>;
+                return (
+                  <Link
+                    href={{
+                      pathname: "/location/[uid]",
+                      query: { uid: region.uid },
+                    }}
+                    key={i}
+                    className="flex flex-col justify-center items-center w-max-[250px] py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
+                  >
+                    <p>{region.data.name}</p>
+                  </Link>
+                );
               }
             })}
           </div>
@@ -50,9 +62,12 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
           <div className="flex justify-center items-center gap-4">
             {thematiques.results?.map(
               (thematique: Content.ThematiqueDocument) => {
-                console.log(thematique);
                 return (
-                  <div
+                  <Link
+                    href={{
+                      pathname: "/thematique/[uid]",
+                      query: { uid: thematique.uid },
+                    }}
                     className="relative flex flex-col justify-center items-center w-max-[250px] py-4 px-6 mx-2 shadow-md hover:shadow-xl rounded-xl"
                     key={thematique.id}
                   >
@@ -64,7 +79,7 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
                     <div className="mt-4">
                       <PrismicRichText field={thematique.data.title} />
                     </div>
-                  </div>
+                  </Link>
                 );
               }
             )}

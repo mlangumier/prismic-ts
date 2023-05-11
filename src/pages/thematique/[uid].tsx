@@ -5,6 +5,7 @@ import { Content, predicate } from "@prismicio/client";
 import * as prismicH from "@prismicio/helpers";
 import { createClient, linkResolver } from "../../../prismicio";
 import { PrismicNextImage } from "@prismicio/next";
+import Link from "next/link";
 
 interface IProps {
   page: Content.ThematiqueDocument;
@@ -41,12 +42,16 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
             {experiences.results?.map(
               (experience: Content.ExperienceDocument) => {
                 return (
-                  <div
+                  <Link
+                    href={{
+                      pathname: "/experience/[uid]",
+                      query: { uid: experience.uid },
+                    }}
                     className="relative flex flex-col justify-center items-center w-max py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
                     key={experience.id}
                   >
                     <PrismicRichText field={experience.data.title} />
-                  </div>
+                  </Link>
                 );
               }
             )}
