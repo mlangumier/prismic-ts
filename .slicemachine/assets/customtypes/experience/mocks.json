@@ -1,7 +1,7 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "moon"
+    "value": "settle"
   },
   "title": {
     "__TYPE__": "StructuredTextContent",
@@ -9,7 +9,7 @@
       {
         "type": "heading2",
         "content": {
-          "text": "Everywhere"
+          "text": "Rather"
         }
       }
     ]
@@ -20,7 +20,7 @@
       {
         "type": "paragraph",
         "content": {
-          "text": "Nulla dolore nisi voluptate. Commodo dolore ipsum ex aliquip nulla officia commodo."
+          "text": "Deserunt ut minim esse ullamco est excepteur mollit fugiat dolore amet velit voluptate non. Ipsum nulla irure aute Lorem proident ullamco velit eu cupidatat excepteur pariatur voluptate dolore ullamco. Cillum esse aliquip ut ad aute."
         }
       }
     ]
@@ -38,6 +38,26 @@
       "__TYPE__": "DocumentLink",
       "id": "mock_document_id"
     }
+  },
+  "locations": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "region",
+            {
+              "__TYPE__": "LinkContent",
+              "value": {
+                "__TYPE__": "DocumentLink",
+                "id": "mock_document_id"
+              }
+            }
+          ]
+        ]
+      }
+    ]
   },
   "slices": {
     "__TYPE__": "SliceContentType",

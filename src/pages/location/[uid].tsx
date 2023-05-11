@@ -66,7 +66,7 @@ export const getStaticProps: GetStaticProps = async ({
   const page = await client.getByUID("region", uid);
 
   const experiences = await client.getAllByType("experience", {
-    // predicates: [predicate.at("my.region.uid", uid)],
+    predicates: [predicate.at("my.experience.locations.region", page.id)],
   });
 
   return {

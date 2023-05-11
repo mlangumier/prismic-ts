@@ -8,9 +8,17 @@ import Link from "next/link";
 
 interface IProps {
   page: Content.HomepageDocument;
+  experiences: Content.ExperienceDocument[];
+  thematics: Content.ThematiqueDocument[];
+  regions: Content.RegionDocument[];
 }
 
-const Homepage: NextPage<IProps> = ({ page }) => {
+const Homepage: NextPage<IProps> = ({
+  page,
+  experiences,
+  thematics,
+  regions,
+}) => {
   return (
     <>
       <Head>
@@ -21,20 +29,65 @@ const Homepage: NextPage<IProps> = ({ page }) => {
       </Head>
 
       <main>
+        <h2 className="my-8 text-center text-xl">Prismic TS TailwindCss</h2>
+        <div className="py-8 mx-2">
+          <div className="py-2">
+            <h2 className="uppercase">Expériences</h2>
+            <div className="flex items-center gap-2 mt-2">
+              {experiences.map((experience: Content.ExperienceDocument, i) => (
+                <Link
+                  href={{
+                    pathname: "/experience/[uid]",
+                    query: { uid: experience.uid },
+                  }}
+                  key={i}
+                  className="bg-blue-800 hover:bg-blue-700 hover:shadow-lg transition text-white rounded-md py-2 px-4"
+                >
+                  {experience.data.title[0].text}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="py-2">
+            <h2 className="uppercase">Thématiques</h2>
+            <div className="flex items-center gap-2 mt-2">
+              {thematics.map((thematic: Content.ThematiqueDocument, i) => (
+                <Link
+                  href={{
+                    pathname: "/thematique/[uid]",
+                    query: { uid: thematic.uid },
+                  }}
+                  key={i}
+                  className="bg-green-800 hover:bg-green-700 hover:shadow-lg transition text-white rounded-md py-2 px-4"
+                >
+                  {thematic.data.name[0].text}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="py-2">
+            <h2 className="uppercase">Régions</h2>
+            <div className="flex items-center gap-2 mt-2">
+              {regions.map((region: Content.RegionDocument, i) => (
+                <Link
+                  href={{
+                    pathname: "/location/[uid]",
+                    query: { uid: region.uid },
+                  }}
+                  key={i}
+                  className="bg-yellow-800 hover:bg-yellow-700 hover:shadow-lg transition text-white rounded-md py-2 px-4"
+                >
+                  {region.data.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <SliceZone slices={page.data.slices} components={components} />
       </main>
-
-      <div className="my-8 text-center">
-        <Link
-          href={{
-            pathname: "/thematique/[uid]",
-            query: { uid: "randonnee" },
-          }}
-          className="bg-slate-800 hover:bg-slate-700 hover:shadow-lg transition text-white rounded-md py-4 px-8"
-        >
-          Vers thématique
-        </Link>
-      </div>
     </>
   );
 };
@@ -46,5 +99,9 @@ export async function getStaticProps({ previewData }: GetStaticPropsContext) {
 
   const page = await client.getSingle("homepage");
 
-  return { props: { page } };
+  const experiences = await client.getAllByType("experience");
+  const thematics = await client.getAllByType("thematique");
+  const regions = await client.getAllByType("region");
+
+  return { props: { page, experiences, thematics, regions } };
 }

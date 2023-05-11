@@ -50,6 +50,24 @@
           ]
         }
       },
+      "locations": {
+        "type": "Group",
+        "config": {
+          "label": "locations",
+          "fields": {
+            "region": {
+              "type": "Link",
+              "config": {
+                "label": "Region",
+                "select": "document",
+                "customtypes": [
+                  "region"
+                ]
+              }
+            }
+          }
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
