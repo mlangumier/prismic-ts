@@ -4,6 +4,7 @@ import { SliceZone } from "@prismicio/react";
 import type { Content } from "@prismicio/client";
 import { components } from "../../slices";
 import { createClient } from "../../prismicio";
+import Link from "next/link";
 
 interface IProps {
   page: Content.HomepageDocument;
@@ -22,6 +23,18 @@ const Homepage: NextPage<IProps> = ({ page }) => {
       <main>
         <SliceZone slices={page.data.slices} components={components} />
       </main>
+
+      <div className="my-8 text-center">
+        <Link
+          href={{
+            pathname: "/thematique/[uid]",
+            query: { uid: "randonnee" },
+          }}
+          className="bg-slate-800 hover:bg-slate-700 hover:shadow-lg transition text-white rounded-md py-4 px-8"
+        >
+          Vers thématique
+        </Link>
+      </div>
     </>
   );
 };

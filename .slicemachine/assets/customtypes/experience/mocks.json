@@ -1,7 +1,7 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "card"
+    "value": "moon"
   },
   "title": {
     "__TYPE__": "StructuredTextContent",
@@ -9,7 +9,7 @@
       {
         "type": "heading2",
         "content": {
-          "text": "Floating"
+          "text": "Everywhere"
         }
       }
     ]
@@ -20,40 +20,24 @@
       {
         "type": "paragraph",
         "content": {
-          "text": "Magna ad id eu ut Lorem est aliquip sunt ut ad sunt fugiat culpa enim sit. Qui sit magna ipsum pariatur."
+          "text": "Nulla dolore nisi voluptate. Commodo dolore ipsum ex aliquip nulla officia commodo."
         }
       }
     ]
   },
-  "locations": {
-    "__TYPE__": "GroupContentType",
-    "value": [
-      {
-        "__TYPE__": "GroupItemContent",
-        "value": [
-          [
-            "region",
-            {
-              "__TYPE__": "LinkContent",
-              "value": {
-                "__TYPE__": "DocumentLink",
-                "id": "mock_document_id"
-              }
-            }
-          ],
-          [
-            "city",
-            {
-              "__TYPE__": "LinkContent",
-              "value": {
-                "__TYPE__": "DocumentLink",
-                "id": "mock_document_id"
-              }
-            }
-          ]
-        ]
-      }
-    ]
+  "region": {
+    "__TYPE__": "LinkContent",
+    "value": {
+      "__TYPE__": "DocumentLink",
+      "id": "mock_document_id"
+    }
+  },
+  "city": {
+    "__TYPE__": "LinkContent",
+    "value": {
+      "__TYPE__": "DocumentLink",
+      "id": "mock_document_id"
+    }
   },
   "slices": {
     "__TYPE__": "SliceContentType",

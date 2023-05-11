@@ -3,15 +3,14 @@ import { GetStaticProps, NextPage } from "next";
 import * as prismicH from "@prismicio/helpers";
 import Head from "next/head";
 import { createClient, linkResolver } from "../../../prismicio";
+import Link from "next/link";
 
 interface IProps {
   page: Content.RegionDocument;
-  experiences: any;
+  experiences: Content.ExperienceDocument[];
 }
 
 const Page: NextPage<IProps> = ({ page, experiences }) => {
-  console.log(experiences.results[2]);
-
   return (
     <>
       <Head>
@@ -23,6 +22,32 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
 
       <main className="flex flex-col justify-center items-center my-8 mx-4">
         <h2 className="text-2xl">{page.data.name}</h2>
+
+        <div className="mt-8">
+          <h2 className="text-xl">Experiences</h2>
+          <div>
+            {experiences.map((experience: Content.ExperienceDocument) => {
+              return (
+                <Link
+                  href={{
+                    pathname: "/experience/[uid]",
+                    query: { uid: experience.uid },
+                  }}
+                  key={experience.uid}
+                >
+                  <div className="mt-8 shadow-md hover:shadow-lg py-2 px-4 rounded-md">
+                    <p className="text-lg underline">
+                      {experience.data.title[0].text}
+                    </p>
+                    <p className="ml-4 text-sm">
+                      {experience.data.description[0].text}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </main>
     </>
   );
@@ -40,9 +65,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   const page = await client.getByUID("region", uid);
 
-  //   https://prismic.io/docs/content-relationship //TODO: fetch by region/city
-  const experiences = await client.get({
-    predicates: [predicate.at("document.type", "experience")],
+  const experiences = await client.getAllByType("experience", {
+    // predicates: [predicate.at("my.region.uid", uid)],
   });
 
   return {

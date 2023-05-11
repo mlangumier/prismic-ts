@@ -9,7 +9,7 @@ import Link from "next/link";
 
 interface IProps {
   page: Content.ThematiqueDocument;
-  experiences: any;
+  experiences: Content.ExperienceDocument[];
 }
 
 const Page: NextPage<IProps> = ({ page, experiences }) => {
@@ -39,22 +39,20 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
         <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
           <h4 className="text-xl mb-6">Experiences:</h4>
           <div className="flex justify-center items-center gap-4">
-            {experiences.results?.map(
-              (experience: Content.ExperienceDocument) => {
-                return (
-                  <Link
-                    href={{
-                      pathname: "/experience/[uid]",
-                      query: { uid: experience.uid },
-                    }}
-                    className="relative flex flex-col justify-center items-center w-max py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
-                    key={experience.id}
-                  >
-                    <PrismicRichText field={experience.data.title} />
-                  </Link>
-                );
-              }
-            )}
+            {experiences?.map((experience: Content.ExperienceDocument) => {
+              return (
+                <Link
+                  href={{
+                    pathname: "/experience/[uid]",
+                    query: { uid: experience.uid },
+                  }}
+                  className="relative flex flex-col justify-center items-center w-max py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
+                  key={experience.id}
+                >
+                  <PrismicRichText field={experience.data.title} />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </main>
@@ -73,11 +71,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   const page = await client.getByUID("thematique", uid);
 
-  const experiences = await client.get({
-    predicates: [
-      predicate.at("document.type", "experience"),
-      predicate.at("document.tags", page.tags),
-    ],
+  const experiences = await client.getAllByType("experience", {
+    predicates: [predicate.at("document.tags", page.tags)],
   });
 
   return {

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 interface IProps {
   page: Content.ExperienceDocument;
-  thematiques: any;
+  thematiques: Content.ThematiqueDocument[];
 }
 
 const Page: NextPage<IProps> = ({ page, thematiques }) => {
@@ -32,27 +32,20 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
 
           <div className="mt-4 mx-4 flex justify-center items-center gap-4">
             <p>Localisations :</p>
-            {page.data.locations.map(({ region, city }, i) => {
-              if (city.id) {
-                return (
-                  <p key={i}>
-                    {city.data.name} ({region.data.name})
-                  </p>
-                );
-              } else {
-                return (
-                  <Link
-                    href={{
-                      pathname: "/location/[uid]",
-                      query: { uid: region.uid },
-                    }}
-                    key={i}
-                    className="flex flex-col justify-center items-center w-max-[250px] py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
-                  >
-                    <p>{region.data.name}</p>
-                  </Link>
-                );
-              }
+
+            {page.data.locations.map(({ region }, i) => {
+              return (
+                <Link
+                  href={{
+                    pathname: "/location/[uid]",
+                    query: { uid: region.uid },
+                  }}
+                  key={i}
+                  className="flex flex-col justify-center items-center w-max-[250px] py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
+                >
+                  <p>{region.data.name}</p>
+                </Link>
+              );
             })}
           </div>
         </div>
@@ -60,29 +53,27 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
         <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
           <h4 className="text-xl mb-6">Thématiques</h4>
           <div className="flex justify-center items-center gap-4">
-            {thematiques.results?.map(
-              (thematique: Content.ThematiqueDocument) => {
-                return (
-                  <Link
-                    href={{
-                      pathname: "/thematique/[uid]",
-                      query: { uid: thematique.uid },
-                    }}
-                    className="relative flex flex-col justify-center items-center w-max-[250px] py-4 px-6 mx-2 shadow-md hover:shadow-xl rounded-xl"
-                    key={thematique.id}
-                  >
-                    <PrismicNextImage
-                      field={thematique.data.image}
-                      imgixParams={{ sat: -75 }}
-                      className="max-w-[250px]"
-                    />
-                    <div className="mt-4">
-                      <PrismicRichText field={thematique.data.title} />
-                    </div>
-                  </Link>
-                );
-              }
-            )}
+            {thematiques?.map((thematique: Content.ThematiqueDocument) => {
+              return (
+                <Link
+                  href={{
+                    pathname: "/thematique/[uid]",
+                    query: { uid: thematique.uid },
+                  }}
+                  className="relative flex flex-col justify-center items-center w-max-[250px] py-4 px-6 mx-2 shadow-md hover:shadow-xl rounded-xl"
+                  key={thematique.id}
+                >
+                  <PrismicNextImage
+                    field={thematique.data.image}
+                    imgixParams={{ sat: -75 }}
+                    className="max-w-[250px]"
+                  />
+                  <div className="mt-4">
+                    <PrismicRichText field={thematique.data.title} />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </main>
@@ -104,11 +95,8 @@ export const getStaticProps: GetStaticProps = async ({
     fetchLinks: "region.name",
   });
 
-  const thematiques = await client.get({
-    predicates: [
-      predicate.at("document.type", "thematique"),
-      predicate.any("document.tags", page.tags),
-    ],
+  const thematiques = await client.getAllByType("thematique", {
+    predicates: [predicate.any("document.tags", page.tags)],
   });
 
   return {
