@@ -1,16 +1,19 @@
 import { Content, predicate } from "@prismicio/client";
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import * as prismicH from "@prismicio/helpers";
 import Head from "next/head";
 import { createClient, linkResolver } from "../../../prismicio";
 import Link from "next/link";
+import { LinkComponent } from "@/components/link";
 
 interface IProps {
   page: Content.RegionDocument;
   experiences: Content.ExperienceDocument[];
+  cities: Content.CityDocument[];
 }
 
-const Page: NextPage<IProps> = ({ page, experiences }) => {
+const Page: NextPage<IProps> = ({ page, cities, experiences }) => {
+  // console.log("exp", experiences);
   return (
     <>
       <Head>
@@ -22,6 +25,22 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
 
       <main className="flex flex-col justify-center items-center my-8 mx-4">
         <h2 className="text-2xl">{page.data.name}</h2>
+
+        <div className="mt-8">
+          <h2 className="text-xl text-center">Cities</h2>
+          <div className="flex justify-center items-center gap-2">
+            {cities.map((city: Content.CityDocument) => {
+              return (
+                <LinkComponent
+                  pageType="city"
+                  uid={city.uid}
+                  typeDataTitle={city.data.name}
+                  key={city.id}
+                />
+              );
+            })}
+          </div>
+        </div>
 
         <div className="mt-8">
           <h2 className="text-xl">Experiences</h2>
@@ -37,7 +56,8 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
                 >
                   <div className="mt-8 shadow-md hover:shadow-lg py-2 px-4 rounded-md">
                     <p className="text-lg underline">
-                      {experience.data.title[0].text}
+                      {experience.data.title[0].text} (
+                      {experience.data.location.length} ville)
                     </p>
                     <p className="ml-4 text-sm">
                       {experience.data.description[0].text}
@@ -55,6 +75,9 @@ const Page: NextPage<IProps> = ({ page, experiences }) => {
 
 export default Page;
 
+// TEST: export const getServerSideProps: GetServerSideProps = async ({
+//* ANSWER: You can not use getStaticProps or getStaticPaths with getServerSideProps.
+//* To use SSG, please remove getServerSideProps
 export const getStaticProps: GetStaticProps = async ({
   params,
   previewData,
@@ -65,13 +88,49 @@ export const getStaticProps: GetStaticProps = async ({
 
   const page = await client.getByUID("region", uid);
 
-  const experiences = await client.getAllByType("experience", {
-    predicates: [predicate.at("my.experience.locations.region", page.id)],
+  // GET Experience from Region
+  // Link: Experience in City in Region
+  // Idea 1: GraphQuery: From region, get Cities, then get Experiences
+  // Idea 2: predicates: Get "experience" with param
+
+  const cities = await client.getAllByType("city", {
+    predicates: [predicate.at("my.city.region", page.id)],
   });
+
+  const citiesIds = cities.map((city) => city.id);
+
+  const experiences = await client.getAllByType("experience", {
+    predicates: [
+      //* Filter: get only Experiences in these cities (eg: regions)
+      predicate.any("my.experience.location.city", citiesIds),
+    ],
+    //* https://prismic.io/docs/query-data-graphql
+    graphQuery: `{
+      allExperiences {
+        location {
+          city {
+            name
+            region {
+              name
+            }
+          }
+        }
+      }
+    }`,
+  });
+  console.log(
+    "------QUERY",
+    experiences
+    // experiences.map((exp) => exp.data.location)
+  );
+
+  // console.log("-----RANDONNEE Cities:", experiences[1].data.location);
+  //* experiences[1].data.location -> displays all cities were that experience/hotel is. Issue ?
 
   return {
     props: {
       page,
+      cities,
       experiences,
     },
   };

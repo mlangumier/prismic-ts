@@ -6,6 +6,7 @@ import * as prismicH from "@prismicio/helpers";
 import { createClient, linkResolver } from "../../../prismicio";
 import { PrismicNextImage } from "@prismicio/next";
 import Link from "next/link";
+import { LinkComponent } from "@/components/link";
 
 interface IProps {
   page: Content.ExperienceDocument;
@@ -24,7 +25,8 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
 
       <main>
         <div className="my-8 flex flex-col items-center justify-center">
-          <div className="text-3xl">
+          <div className="mb-4 flex gap-2">
+            <h2 className="uppercase">Expérience : </h2>
             <PrismicRichText field={page.data.title} />
           </div>
 
@@ -33,21 +35,34 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
           <div className="mt-4 mx-4 flex justify-center items-center gap-4">
             <p>Localisations :</p>
 
-            {page.data.locations.map(({ region }, i) => {
+            {page.data.locations.map(({ region }) => {
               return (
-                <Link
-                  href={{
-                    pathname: "/location/[uid]",
-                    query: { uid: region.uid },
-                  }}
-                  key={i}
-                  className="flex flex-col justify-center items-center w-max-[250px] py-4 px-6 shadow-md hover:shadow-xl rounded-xl"
-                >
-                  <p>{region.data.name}</p>
-                </Link>
+                <LinkComponent
+                  pageType="location"
+                  uid={region.uid}
+                  typeDataTitle={region.data.name}
+                  key={region.id}
+                />
               );
             })}
           </div>
+
+          {page.data.city.length ? (
+            <div className="mt-4 mx-4 flex justify-center items-center gap-4">
+              <p>Cities :</p>
+
+              {page.data.city.map(({ name: city }) => {
+                return (
+                  <LinkComponent
+                    pageType="city"
+                    uid={city.uid}
+                    typeDataTitle={city.data.name}
+                    key={city.id}
+                  />
+                );
+              })}
+            </div>
+          ) : null}
         </div>
 
         <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
@@ -69,7 +84,7 @@ const Page: NextPage<IProps> = ({ page, thematiques }) => {
                     className="max-w-[250px]"
                   />
                   <div className="mt-4">
-                    <PrismicRichText field={thematique.data.title} />
+                    <PrismicRichText field={thematique.data.name} />
                   </div>
                 </Link>
               );
@@ -92,7 +107,7 @@ export const getStaticProps: GetStaticProps = async ({
   const client = createClient({ previewData });
 
   const page = await client.getByUID("experience", uid, {
-    fetchLinks: "region.name",
+    fetchLinks: ["region.name", "city.name"],
   });
 
   const thematiques = await client.getAllByType("thematique", {

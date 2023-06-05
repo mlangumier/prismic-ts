@@ -18,6 +18,16 @@
           "label": "Name",
           "placeholder": ""
         }
+      },
+      "region": {
+        "type": "Link",
+        "config": {
+          "label": "Region",
+          "select": "document",
+          "customtypes": [
+            "region"
+          ]
+        }
       }
     }
   }

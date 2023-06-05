@@ -30,38 +30,18 @@
           "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
-      "region": {
-        "type": "Link",
-        "config": {
-          "label": "Region",
-          "select": "document",
-          "customtypes": [
-            "region"
-          ]
-        }
-      },
-      "city": {
-        "type": "Link",
-        "config": {
-          "label": "City",
-          "select": "document",
-          "customtypes": [
-            "city"
-          ]
-        }
-      },
-      "locations": {
+      "location": {
         "type": "Group",
         "config": {
-          "label": "locations",
+          "label": "Location",
           "fields": {
-            "region": {
+            "city": {
               "type": "Link",
               "config": {
-                "label": "Region",
+                "label": "City",
                 "select": "document",
                 "customtypes": [
-                  "region"
+                  "city"
                 ]
               }
             }

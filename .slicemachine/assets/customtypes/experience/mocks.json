@@ -1,7 +1,7 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "settle"
+    "value": "properly"
   },
   "title": {
     "__TYPE__": "StructuredTextContent",
@@ -9,7 +9,7 @@
       {
         "type": "heading2",
         "content": {
-          "text": "Rather"
+          "text": "Offer"
         }
       }
     ]
@@ -20,33 +20,19 @@
       {
         "type": "paragraph",
         "content": {
-          "text": "Deserunt ut minim esse ullamco est excepteur mollit fugiat dolore amet velit voluptate non. Ipsum nulla irure aute Lorem proident ullamco velit eu cupidatat excepteur pariatur voluptate dolore ullamco. Cillum esse aliquip ut ad aute."
+          "text": "Laborum voluptate labore adipisicing duis qui nisi tempor. Proident et aute sunt sit elit eiusmod sunt quis Lorem nisi sit."
         }
       }
     ]
   },
-  "region": {
-    "__TYPE__": "LinkContent",
-    "value": {
-      "__TYPE__": "DocumentLink",
-      "id": "mock_document_id"
-    }
-  },
-  "city": {
-    "__TYPE__": "LinkContent",
-    "value": {
-      "__TYPE__": "DocumentLink",
-      "id": "mock_document_id"
-    }
-  },
-  "locations": {
+  "location": {
     "__TYPE__": "GroupContentType",
     "value": [
       {
         "__TYPE__": "GroupItemContent",
         "value": [
           [
-            "region",
+            "city",
             {
               "__TYPE__": "LinkContent",
               "value": {

@@ -1,7 +1,7 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "spin"
+    "value": "breath"
   },
   "name": {
     "__TYPE__": "StructuredTextContent",
@@ -9,18 +9,7 @@
       {
         "type": "paragraph",
         "content": {
-          "text": "Voluptate in ex laboris reprehenderit dolor sit fugiat sit tempor qui amet id. Enim mollit in duis magna qui sit enim veniam. Id ex magna eiusmod occaecat magna in est laborum incididunt irure sit officia commodo."
-        }
-      }
-    ]
-  },
-  "title": {
-    "__TYPE__": "StructuredTextContent",
-    "value": [
-      {
-        "type": "paragraph",
-        "content": {
-          "text": "Sit elit aliqua elit officia ex voluptate pariatur qui amet eu minim excepteur tempor ipsum. Dolor mollit occaecat minim consequat enim."
+          "text": "Duis ex aliquip officia. Irure non voluptate occaecat cillum esse duis magna consectetur excepteur elit pariatur aliqua duis adipisicing ullamco. Tempor ullamco aliqua commodo laborum sunt in laboris nisi commodo cupidatat velit Lorem eiusmod."
         }
       }
     ]
@@ -29,13 +18,13 @@
     "__TYPE__": "ImageContent",
     "origin": {
       "id": "main",
-      "url": "https://images.unsplash.com/photo-1547394765-185e1e68f34e",
-      "width": 6000,
-      "height": 4000
+      "url": "https://images.unsplash.com/photo-1547082299-de196ea013d6",
+      "width": 4272,
+      "height": 2848
     },
-    "url": "https://images.unsplash.com/photo-1547394765-185e1e68f34e",
-    "width": 6000,
-    "height": 4000,
+    "url": "https://images.unsplash.com/photo-1547082299-de196ea013d6",
+    "width": 4272,
+    "height": 2848,
     "edit": {
       "zoom": 1,
       "crop": {

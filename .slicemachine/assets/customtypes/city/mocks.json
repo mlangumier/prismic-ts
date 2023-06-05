@@ -1,11 +1,18 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "branch"
+    "value": "method"
   },
   "name": {
     "__TYPE__": "FieldContent",
-    "value": "wear",
+    "value": "fighting",
     "type": "Text"
+  },
+  "region": {
+    "__TYPE__": "LinkContent",
+    "value": {
+      "__TYPE__": "DocumentLink",
+      "id": "mock_document_id"
+    }
   }
 }

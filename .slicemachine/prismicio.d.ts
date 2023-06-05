@@ -19,6 +19,17 @@ interface CityDocumentData {
      *
      */
     name: prismicT.KeyTextField;
+    /**
+     * Region field in *City*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: city.region
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    region: prismicT.RelationField<"region">;
 }
 /**
  * City document from Prismic
@@ -55,38 +66,16 @@ interface ExperienceDocumentData {
      */
     description: prismicT.RichTextField;
     /**
-     * Region field in *Experience*
-     *
-     * - **Field Type**: Content Relationship
-     * - **Placeholder**: *None*
-     * - **API ID Path**: experience.region
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    region: prismicT.RelationField<"region">;
-    /**
-     * City field in *Experience*
-     *
-     * - **Field Type**: Content Relationship
-     * - **Placeholder**: *None*
-     * - **API ID Path**: experience.city
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-     *
-     */
-    city: prismicT.RelationField<"city">;
-    /**
-     * locations field in *Experience*
+     * Location field in *Experience*
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: experience.locations[]
+     * - **API ID Path**: experience.location[]
      * - **Tab**: Main
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
      */
-    locations: prismicT.GroupField<Simplify<ExperienceDocumentDataLocationsItem>>;
+    location: prismicT.GroupField<Simplify<ExperienceDocumentDataLocationItem>>;
     /**
      * Slice Zone field in *Experience*
      *
@@ -100,20 +89,20 @@ interface ExperienceDocumentData {
     slices: prismicT.SliceZone<ExperienceDocumentDataSlicesSlice>;
 }
 /**
- * Item in Experience → locations
+ * Item in Experience → Location
  *
  */
-export interface ExperienceDocumentDataLocationsItem {
+export interface ExperienceDocumentDataLocationItem {
     /**
-     * Region field in *Experience → locations*
+     * City field in *Experience → Location*
      *
      * - **Field Type**: Content Relationship
      * - **Placeholder**: *None*
-     * - **API ID Path**: experience.locations[].region
+     * - **API ID Path**: experience.location[].city
      * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
      *
      */
-    region: prismicT.RelationField<"region">;
+    city: prismicT.RelationField<"city">;
 }
 /**
  * Slice for *Experience → Slice Zone*
@@ -196,17 +185,6 @@ interface ThematiqueDocumentData {
      *
      */
     name: prismicT.RichTextField;
-    /**
-     * Title field in *Thematique*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: thematique.title
-     * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    title: prismicT.RichTextField;
     /**
      * Image field in *Thematique*
      *
@@ -538,6 +516,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { CityDocumentData, CityDocument, ExperienceDocumentData, ExperienceDocumentDataLocationsItem, ExperienceDocumentDataSlicesSlice, ExperienceDocument, HomepageDocumentData, HomepageDocumentDataSlicesSlice, HomepageDocument, RegionDocumentData, RegionDocument, ThematiqueDocumentData, ThematiqueDocumentDataSlicesSlice, ThematiqueDocument, AllDocumentTypes, CardImageTextSliceDefaultPrimary, CardImageTextSliceDefault, CardImageTextSliceVariation, CardImageTextSlice, ImageTextCtaSliceDefaultPrimary, ImageTextCtaSliceDefault, ImageTextCtaSliceImageRightSidePrimary, ImageTextCtaSliceImageRightSide, ImageTextCtaSliceVariation, ImageTextCtaSlice, TextBlockSliceDefaultPrimary, TextBlockSliceDefault, TextBlockSliceTextBlockColumnsPrimary, TextBlockSliceTextBlockColumns, TextBlockSliceVariation, TextBlockSlice };
+        export type { CityDocumentData, CityDocument, ExperienceDocumentData, ExperienceDocumentDataLocationItem, ExperienceDocumentDataSlicesSlice, ExperienceDocument, HomepageDocumentData, HomepageDocumentDataSlicesSlice, HomepageDocument, RegionDocumentData, RegionDocument, ThematiqueDocumentData, ThematiqueDocumentDataSlicesSlice, ThematiqueDocument, AllDocumentTypes, CardImageTextSliceDefaultPrimary, CardImageTextSliceDefault, CardImageTextSliceVariation, CardImageTextSlice, ImageTextCtaSliceDefaultPrimary, ImageTextCtaSliceDefault, ImageTextCtaSliceImageRightSidePrimary, ImageTextCtaSliceImageRightSide, ImageTextCtaSliceVariation, ImageTextCtaSlice, TextBlockSliceDefaultPrimary, TextBlockSliceDefault, TextBlockSliceTextBlockColumnsPrimary, TextBlockSliceTextBlockColumns, TextBlockSliceVariation, TextBlockSlice };
     }
 }
