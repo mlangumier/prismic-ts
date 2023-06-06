@@ -1,6 +1,4 @@
 {
-  "apiEndpoint": "https://ml-ts-tailwind.prismic.io/api/v2",
-  "libraries": ["@/slices"],
-  "_latest": "0.7.1",
-  "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
+	"//": "sm.json is deprecated, if you were importing values from this file please now import them from slicemachine.config.json, else you can safely delete this file",
+	"apiEndpoint": "https://ml-ts-tailwind.prismic.io/api/v2"
 }

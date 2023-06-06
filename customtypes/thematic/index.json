@@ -1,15 +1,15 @@
 {
-  "id": "region",
-  "label": "Region",
+  "id": "thematic",
+  "label": "Thematic",
   "format": "page",
   "repeatable": true,
   "status": true,
   "json": {
     "Main": {
       "uid": { "config": { "label": "UID" }, "type": "UID" },
-      "name": {
+      "label": {
         "type": "Text",
-        "config": { "label": "Name", "placeholder": "Name of the region" }
+        "config": { "label": "Label", "placeholder": "Label of the thematic" }
       }
     },
     "SEO & Metadata": {

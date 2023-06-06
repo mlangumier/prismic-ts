@@ -1,6 +1,6 @@
 {
-  "id": "region",
-  "label": "Region",
+  "id": "hotel",
+  "label": "Hotel",
   "format": "page",
   "repeatable": true,
   "status": true,
@@ -9,7 +9,31 @@
       "uid": { "config": { "label": "UID" }, "type": "UID" },
       "name": {
         "type": "Text",
-        "config": { "label": "Name", "placeholder": "Name of the region" }
+        "config": { "label": "Name", "placeholder": "The name of the hotel" }
+      },
+      "city": {
+        "type": "Link",
+        "config": {
+          "label": "City",
+          "select": "document",
+          "customtypes": ["city"]
+        }
+      },
+      "thematics": {
+        "type": "Group",
+        "config": {
+          "label": "Thematics",
+          "fields": {
+            "thematic": {
+              "type": "Link",
+              "config": {
+                "label": "Thematic",
+                "select": "document",
+                "customtypes": ["thematic"]
+              }
+            }
+          }
+        }
       }
     },
     "SEO & Metadata": {

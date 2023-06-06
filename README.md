@@ -8,7 +8,7 @@
 ## Feat: fetch by tag
 
 - pages/experience/[uid]
-- pages/thematique/[uid]
+- pages/thematic/[uid]
 
 ## Feat: Content relationship
 
@@ -35,13 +35,13 @@ Voilà ce que j'ai pensé faire :
 
 - Page region
 - Page City: related to 1 region
-- Page Thematique: has its own tag
-- Page Experience: has thematique tag(s) and region(s) + city(ies)
+- Page thematic: has its own tag
+- Page Experience: has thematic tag(s) and region(s) + city(ies)
 
 ## (bonus) Researches
 
 Goal: Each navigation adds a search-filter:  
-Show Regions -> show Thematiques of selected Region -> show Experiences in Thematique of selected Region -> etc.
+Show Regions -> show thematics of selected Region -> show Experiences in thematic of selected Region -> etc.
 
 ### Issues
 
@@ -54,3 +54,36 @@ Show Regions -> show Thematiques of selected Region -> show Experiences in Thema
 - Use params to filter & show pages ?
 - Go to page-type [:id] & add url-params from previously selected [:id] to filter search ?
 - path: '/:lang/:section/:category/:uid' with page-types ?
+
+## Migrate to clientV7 (from V6)
+
+[Changes: predicate -> filter, query -> get, ](https://prismic.io/docs/prismicio-client-v7-migration-guide#migrate-from-removed-deprecated-apis)
+
+## TODO
+
+- Finish migrating to Next13
+- Create other pages (thematic -> thematic; Experiences -> Hotels)
+- Transform Thematics Tags (w/Hotels) to "content relationship"(n)
+- Manage Layouts (pre-fetch pages, first error-check) vs not-found pages
+- Setup relationships Area -> Region -> City -> Hotel / Arrondissement -> Hotel
+- Start creating custom-components (w/ asText(data.title...))
+- Start creating slices ?
+
+## Get Data from Content relationships
+
+### Get details
+
+```javascript
+client.getByType("blog_post", { fetchLinks: "author.first_name" });
+```
+
+###
+
+```javascript
+const document = await client.get({
+  filters: prismic.filter.at(
+    "my.example_custom_type.example_content_relationship",
+    "YesUgRIAACEA-UZD"
+  ),
+});
+```

@@ -1,33 +1,47 @@
 {
   "id": "city",
   "label": "City",
+  "format": "page",
   "repeatable": true,
   "status": true,
   "json": {
     "Main": {
-      "uid": {
-        "type": "UID",
-        "config": {
-          "label": "uid",
-          "placeholder": ""
-        }
-      },
+      "uid": { "config": { "label": "UID" }, "type": "UID" },
       "name": {
         "type": "Text",
-        "config": {
-          "label": "Name",
-          "placeholder": ""
-        }
+        "config": { "label": "Name", "placeholder": "Name of the city" }
       },
       "region": {
         "type": "Link",
         "config": {
           "label": "Region",
           "select": "document",
-          "customtypes": [
-            "region"
-          ]
+          "customtypes": ["region"]
         }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_description": {
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        },
+        "type": "StructuredText"
+      },
+      "meta_image": {
+        "config": {
+          "constraint": { "height": 1260, "width": 2400 },
+          "label": "Meta Image",
+          "thumbnails": []
+        },
+        "type": "Image"
+      },
+      "meta_title": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
       }
     }
   }

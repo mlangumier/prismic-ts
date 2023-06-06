@@ -1,23 +1,55 @@
 {
   "id": "homepage",
   "label": "Homepage",
+  "format": "page",
   "repeatable": false,
   "status": true,
   "json": {
     "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": "Name of the website or title of the page"
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Description",
+          "placeholder": "Short description to explain what this project is about",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
+        "config": { "choices": {} }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_description": {
         "config": {
-          "choices": {
-            "image_text_cta": {
-              "type": "SharedSlice"
-            },
-            "text_block": {
-              "type": "SharedSlice"
-            }
-          }
-        }
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        },
+        "type": "StructuredText"
+      },
+      "meta_image": {
+        "config": {
+          "constraint": { "height": 1260, "width": 2400 },
+          "label": "Meta Image",
+          "thumbnails": []
+        },
+        "type": "Image"
+      },
+      "meta_title": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
       }
     }
   }
