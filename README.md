@@ -74,16 +74,13 @@ Show Regions -> show thematics of selected Region -> show Experiences in themati
 ### Get details
 
 ```javascript
-client.getByType("blog_post", { fetchLinks: "author.first_name" });
+client.getByType("hotel", { fetchLinks: "city.name" });
 ```
 
-###
+### Get with filter
 
 ```javascript
-const document = await client.get({
-  filters: prismic.filter.at(
-    "my.example_custom_type.example_content_relationship",
-    "YesUgRIAACEA-UZD"
-  ),
+const hotels = await client.getAllByType("hotel", {
+  filters: filter.at("my.hotel.thematics.thematic", thematic.id),
 });
 ```

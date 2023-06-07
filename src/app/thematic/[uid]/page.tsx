@@ -2,7 +2,6 @@ import { createClient } from "@/prismicio";
 import { Content, filter } from "@prismicio/client";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { queryThematic } from "./query";
 import { LinkComponent } from "@/components/link";
 
 interface IProps {
