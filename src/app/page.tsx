@@ -1,8 +1,8 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { LinkComponent } from "@/components/link";
 import { createClient } from "@/prismicio";
 import { Content, asText } from "@prismicio/client";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 export async function generateMetaData(): Promise<Metadata> {
   const client = createClient();
@@ -28,58 +28,54 @@ export default async function Home() {
 
   return (
     <main className="mx-2">
-      <h2 className="mt-8 mb-16 text-center text-xl">Prismic TS TailwindCss</h2>
+      <h2 className="my-8 text-center text-xl">Prismic TS TailwindCss</h2>
 
-      <div className="my-4">
-        <h2 className="uppercase">Thématiques</h2>
-        <div className="flex flex-wrap items-center gap-2 mt-2">
-          {thematics.map((thematic: Content.ThematicDocument) => (
+      <div className="text-center py-4">
+        <h4 className="text-xl mb-6">Thématiques</h4>
+        <div className="flex justify-center items-center gap-4">
+          {thematics?.map((thematic) => (
             <LinkComponent
-              pageType="thematic"
-              uid={thematic.uid}
-              typeDataTitle={thematic.data.label}
+              url={thematic.url!}
+              text={thematic.data.label}
               key={thematic.id}
             />
           ))}
         </div>
       </div>
 
-      <div className="my-4">
-        <h2 className="uppercase">Régions</h2>
-        <div className="flex flex-wrap items-center gap-2 mt-2">
-          {regions.map((region: Content.RegionDocument) => (
+      <div className="text-center py-4">
+        <h4 className="text-xl mb-6">Régions</h4>
+        <div className="flex justify-center items-center gap-4">
+          {regions?.map((region) => (
             <LinkComponent
-              pageType="location"
-              uid={region.uid}
-              typeDataTitle={region.data.name}
+              url={region.url!}
+              text={region.data.name}
               key={region.id}
             />
           ))}
         </div>
       </div>
 
-      <div className="my-4">
-        <h2 className="uppercase">Villes</h2>
-        <div className="flex flex-wrap items-center gap-2 mt-2">
-          {cities.map((city: Content.CityDocument) => (
+      <div className="text-center py-4">
+        <h4 className="text-xl mb-6">Villes</h4>
+        <div className="flex justify-center items-center gap-4">
+          {cities?.map((city) => (
             <LinkComponent
-              pageType="city"
-              uid={city.uid}
-              typeDataTitle={city.data.name}
+              url={city.url!}
+              text={city.data.name}
               key={city.id}
             />
           ))}
         </div>
       </div>
 
-      <div className="my-4">
-        <h2 className="uppercase">Hôtels</h2>
-        <div className="flex flex-wrap items-center gap-2 mt-2">
-          {hotels.map((hotel: Content.HotelDocument) => (
+      <div className="text-center py-4">
+        <h4 className="text-xl mb-6">Villes</h4>
+        <div className="flex justify-center items-center gap-4">
+          {hotels?.map((hotel) => (
             <LinkComponent
-              pageType="experience"
-              uid={hotel.uid}
-              typeDataTitle={hotel.data.name}
+              url={hotel.url!}
+              text={hotel.data.name}
               key={hotel.id}
             />
           ))}

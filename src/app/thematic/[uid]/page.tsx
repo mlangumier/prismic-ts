@@ -18,7 +18,7 @@ export async function generateMetadata({
     .getByUID("thematic", params.uid)
     .catch(() => notFound());
 
-  return { title: page.data.meta_title || "Thematique | Prismic TS" };
+  return { title: page.data.meta_title || "Thématique | Prismic TS" };
 }
 
 export default async function Page({ params }: { params: IProps }) {
@@ -41,23 +41,20 @@ export default async function Page({ params }: { params: IProps }) {
     <>
       <div className="my-8 flex flex-col justify-center items-center">
         <div className="mb-8 flex gap-2">
-          <h2 className="uppercase">Thématique : {page.data.label}</h2>
+          <h2 className="text-2xl uppercase">Thématique : {page.data.label}</h2>
         </div>
       </div>
 
       <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
         <h4 className="text-xl mb-6">Hôtels</h4>
         <div className="flex justify-center items-center gap-4">
-          {hotels?.map((hotel: Content.HotelDocument) => {
-            return (
-              <LinkComponent
-                pageType="hotel"
-                uid={hotel.uid}
-                typeDataTitle={hotel.data.name}
-                key={hotel.uid}
-              />
-            );
-          })}
+          {hotels?.map((hotel: Content.HotelDocument) => (
+            <LinkComponent
+              url={hotel.url!}
+              text={hotel.data.name}
+              key={hotel.id}
+            />
+          ))}
         </div>
       </div>
     </>
