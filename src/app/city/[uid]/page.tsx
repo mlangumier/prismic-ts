@@ -36,6 +36,10 @@ export default async function Page({ params }: { params: IProps }) {
     })
     .catch(notFound);
 
+  if (hotels.length === 0) {
+    notFound();
+  }
+
   const thematicsList = hotels
     .map((hotel) => hotel.data.thematics.map(({ thematic }) => thematic.id))
     .flat();
@@ -55,9 +59,7 @@ export default async function Page({ params }: { params: IProps }) {
       </div>
 
       <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
-        <h4 className="text-xl mb-6">
-          Thématiques (need to only keep relevant ones)
-        </h4>
+        <h4 className="text-xl mb-6">Thématiques (only relevant ones)</h4>
         <div className="flex justify-center items-center gap-4">
           {thematics?.map((thematic: Content.ThematicDocument) => (
             <LinkComponent

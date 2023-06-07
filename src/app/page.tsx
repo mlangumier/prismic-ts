@@ -2,15 +2,15 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LinkComponent } from "@/components/link";
 import { createClient } from "@/prismicio";
-import { Content, asText } from "@prismicio/client";
+import { asText } from "@prismicio/client";
 
 export async function generateMetaData(): Promise<Metadata> {
   const client = createClient();
   const page = await client.getSingle("homepage");
 
   return {
-    title: asText(page.data.title) || "Prismic TS",
-    // description?: page.data.meta_description,
+    title: page.data.title,
+    description: asText(page.data.meta_description),
   };
 }
 
@@ -28,8 +28,6 @@ export default async function Home() {
 
   return (
     <main className="mx-2">
-      <h2 className="my-8 text-center text-xl">Prismic TS TailwindCss</h2>
-
       <div className="text-center py-4">
         <h4 className="text-xl mb-6">Thématiques</h4>
         <div className="flex justify-center items-center gap-4">

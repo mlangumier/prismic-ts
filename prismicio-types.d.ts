@@ -317,6 +317,72 @@ interface RegionDocumentData {
  */
 export type RegionDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<RegionDocumentData>, "region", Lang>;
+/** Content for Settings documents */
+interface SettingsDocumentData {
+  /**
+   * Site Title field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: The name of the website
+   * - **API ID Path**: settings.site_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  site_title: prismic.KeyTextField;
+  /**
+   * Navigation field in *Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+}
+/**
+ * Item in Settings → Navigation
+ *
+ */
+export interface SettingsDocumentDataNavigationItem {
+  /**
+   * Link field in *Settings → Navigation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Link to another page
+   * - **API ID Path**: settings.navigation[].link
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  link: prismic.LinkField;
+  /**
+   * Label field in *Settings → Navigation*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: The name of the linked page
+   * - **API ID Path**: settings.navigation[].label
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  label: prismic.KeyTextField;
+}
+/**
+ * Settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SettingsDocumentData>,
+    "settings",
+    Lang
+  >;
 /** Content for Thematic documents */
 interface ThematicDocumentData {
   /**
@@ -384,6 +450,7 @@ export type AllDocumentTypes =
   | HomepageDocument
   | HotelDocument
   | RegionDocument
+  | SettingsDocument
   | ThematicDocument;
 /**
  * Primary content in CardImageText → Primary
@@ -724,6 +791,9 @@ declare module "@prismicio/client" {
       HotelDocument,
       RegionDocumentData,
       RegionDocument,
+      SettingsDocumentData,
+      SettingsDocumentDataNavigationItem,
+      SettingsDocument,
       ThematicDocumentData,
       ThematicDocument,
       AllDocumentTypes,

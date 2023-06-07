@@ -14,7 +14,6 @@ Goal: navigate to one page, then use filters:
 
 ## TODO
 
-- Manage Layouts (pre-fetch pages, first error-check) vs not-found pages
 - Add multi-lang
 - Update url from '/thematic/:uid/city/:uid' -> '/:thematic/:city
 - Setup relationships Area -> Region -> City -> Hotel / Arrondissement -> Hotel

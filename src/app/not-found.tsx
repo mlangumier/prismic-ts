@@ -1,8 +1,7 @@
 export default function NotFound() {
   return (
-    <div>
-      <h2>Main Not Found</h2>
-      <p>Could not find requested resource</p>
+    <div className="flex flex-col justify-center items-center mt-8">
+      <p className="">Error - Could not find requested resource</p>
     </div>
   );
 }
