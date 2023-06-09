@@ -10,8 +10,11 @@ export const repositoryName = prismic.getRepositoryName(sm.apiEndpoint);
 /**
  * A list of Route Resolver objects that define how a document's `url` field
  * is resolved.
- *
  * {@link https://prismic.io/docs/route-resolver#route-resolver}
+ *
+ * If fails, add a Link Resolver that will take priority, and keep Route Resolver as backup
+ * {@link https://prismic.io/docs/route-resolver}
+ *
  */
 const routes: prismic.ClientConfig["routes"] = [
   {
