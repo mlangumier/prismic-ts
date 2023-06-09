@@ -14,8 +14,8 @@ Goal: navigate to one page, then use filters:
 
 ## TODO
 
+- Finish updating URLs (/destination & /inspiration + add Typologie) + check how to have same route with different type (/inspiration/:typology & /inspiration/:thematic)
 - Add multi-lang
-- Update url from '/thematic/:uid/city/:uid' -> '/:thematic/:city
 - Setup relationships Area -> Region -> City -> Hotel / Arrondissement -> Hotel
 - Start creating custom-components (w/ asText(data.title...))
 - Start creating slices ?

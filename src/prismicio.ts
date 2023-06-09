@@ -20,21 +20,51 @@ const routes: prismic.ClientConfig["routes"] = [
     path: "/",
   },
   {
-    type: "thematic",
-    path: "/thematic/:uid",
-  },
-  {
     type: "region",
-    path: "/region/:uid",
+    path: "/destination/:uid",
   },
   {
     type: "city",
-    path: "/city/:uid",
+    resolvers: { region: "region" },
+    path: "/city/:region/:uid",
   },
   {
     type: "hotel",
     path: "/hotel/:uid",
   },
+  {
+    type: "thematic",
+    path: "/inspiration/:uid",
+  },
+  // -----
+  // {
+  //   type: "thematic",
+  //   path: "/:lang/inspiration/:uid",
+  // },
+  //* OR
+  // {
+  //   type: "typology",
+  //   path: "/:lang/inspiration/:uid",
+  // },
+  // -----
+  // {
+  //   type: "region",
+  //   path: "/:lang/destination/:uid",
+  // },
+  // {
+  //   type: "city",
+  //   resolvers: {
+  //     region: "city.region",
+  //   },
+  //   path: "/:lang/destination/:region?/:uid",
+  // },
+  // {
+  //   type: "region",
+  //   resolvers: {
+  //     thematic: "thematic",
+  //   },
+  //   path: "/:lang/destination/:uid/:thematic",
+  // },
 ];
 
 /**

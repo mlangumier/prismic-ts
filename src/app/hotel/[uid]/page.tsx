@@ -19,7 +19,7 @@ export async function generateMetadata({
     .getByUID("hotel", params.uid)
     .catch(() => notFound());
 
-  return { title: page.data.meta_title || "Hôtel | Prismic TS" };
+  return { title: page.data.meta_title };
 }
 
 export default async function Page({ params }: { params: IProps }) {
