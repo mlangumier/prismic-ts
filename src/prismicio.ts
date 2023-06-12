@@ -1,6 +1,6 @@
 import * as prismic from "@prismicio/client";
 import * as prismicNext from "@prismicio/next";
-import sm from "../sm.json";
+import sm from "../slicemachine.config.json";
 
 /**
  * The project's Prismic repository name.
@@ -20,24 +20,24 @@ const routes: prismic.ClientConfig["routes"] = [
   {
     type: "homepage",
     uid: "homepage",
-    path: "/",
+    path: "/:lang?",
+  },
+  {
+    type: "thematic",
+    path: "/:lang/inspiration/:uid",
   },
   {
     type: "region",
-    path: "/destination/:uid",
+    path: "/:lang/destination/:uid",
   },
   {
     type: "city",
     resolvers: { region: "region" },
-    path: "/city/:region/:uid",
+    path: "/:lang?/city/:region/:uid",
   },
   {
     type: "hotel",
-    path: "/hotel/:uid",
-  },
-  {
-    type: "thematic",
-    path: "/inspiration/:uid",
+    path: "/:lang?/hotel/:uid",
   },
   // -----
   // {
@@ -49,6 +49,7 @@ const routes: prismic.ClientConfig["routes"] = [
   //   type: "typology",
   //   path: "/:lang/inspiration/:uid",
   // },
+  //* "/:lang/inspiration/:slug -> Slug either: [thematic] or [typology]
   // -----
   // {
   //   type: "region",
@@ -57,9 +58,9 @@ const routes: prismic.ClientConfig["routes"] = [
   // {
   //   type: "city",
   //   resolvers: {
-  //     region: "city.region",
+  //     uid: "city.region",
   //   },
-  //   path: "/:lang/destination/:region?/:uid",
+  //   path: "/:lang/destination/:uid/:city", -> [uid] = region
   // },
   // {
   //   type: "region",

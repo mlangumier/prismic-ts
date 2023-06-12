@@ -3,10 +3,18 @@ import { notFound } from "next/navigation";
 import { LinkComponent } from "@/components/link";
 import { createClient } from "@/prismicio";
 import { asText } from "@prismicio/client";
+import { PrismicRichText } from "@prismicio/react";
+import { PrismicNextLink } from "@prismicio/next";
 
-export async function generateMetaData(): Promise<Metadata> {
+interface IProps {
+  params: {
+    locale: string;
+  };
+}
+
+export async function generateMetaData({ params }: IProps): Promise<Metadata> {
   const client = createClient();
-  const page = await client.getSingle("homepage");
+  const page = await client.getSingle("homepage", { lang: params.locale });
 
   return {
     title: page.data.title,
@@ -14,20 +22,30 @@ export async function generateMetaData(): Promise<Metadata> {
   };
 }
 
-export default async function Home() {
+export default async function Home({ params: { locale } }: IProps) {
   const client = createClient();
 
-  const page = await client.getSingle("homepage");
+  const page = await client.getSingle("homepage", { lang: locale });
 
   const thematics = await client
-    .getAllByType("thematic")
+    .getAllByType("thematic", { lang: locale })
     .catch(() => notFound());
-  const regions = await client.getAllByType("region").catch(() => notFound());
-  const cities = await client.getAllByType("city").catch(() => notFound());
-  const hotels = await client.getAllByType("hotel").catch(() => notFound());
+  const regions = await client
+    .getAllByType("region", { lang: locale })
+    .catch(() => notFound());
+  const cities = await client
+    .getAllByType("city", { lang: locale })
+    .catch(() => notFound());
+  const hotels = await client
+    .getAllByType("hotel", { lang: locale })
+    .catch(() => notFound());
 
   return (
     <main className="mx-2">
+      <div className="py-8 max-w-[500px] m-auto text-center">
+        <PrismicRichText field={page.data.description} />
+      </div>
+
       <div className="text-center py-4">
         <h4 className="text-xl mb-6">Thématiques</h4>
         <div className="flex justify-center items-center gap-4">
