@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { LinkComponent } from "@/components/link";
 
 interface IProps {
-  uid: string;
+  thematic: string;
 }
 
 export async function generateMetadata({
@@ -15,7 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const client = createClient();
   const page = await client
-    .getByUID("thematic", params.uid)
+    .getByUID("thematic", params.thematic)
     .catch(() => notFound());
 
   return { title: page.data.meta_title || "Thématique | Prismic TS" };
@@ -25,21 +25,21 @@ export default async function Page({ params }: { params: IProps }) {
   const client = createClient();
 
   const page = await client
-    .getByUID("thematic", params.uid)
+    .getByUID("thematic", params.thematic)
     .catch(() => notFound());
 
   const hotels = await client
     .getAllByType("hotel", {
       filters: [
         filter.at("my.hotel.thematics.thematic", page.id),
-        // filter.at("my.hotel.city", "ZIA8ARUAACoAzgba"), // Annecy
+        filter.at("my.hotel.city", "ZIA8ARUAACoAzgba"), // Annecy
       ],
     })
     .catch(() => notFound());
 
   return (
     <>
-      <div className="my-8 flex flex-col justify-center items-center">
+      <div className="mb-8 flex flex-col justify-center items-center">
         <div className="mb-8 flex gap-2">
           <h2 className="text-2xl uppercase">Thématique : {page.data.label}</h2>
         </div>

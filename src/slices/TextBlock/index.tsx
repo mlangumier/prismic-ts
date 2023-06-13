@@ -5,21 +5,34 @@ import { Content } from "@prismicio/client";
 interface IProps {
   slice: Content.TextBlockSlice;
 }
+interface IVariation {
+  section: string;
+  title?: string;
+  description?: string;
+}
 
 const TextBlock = ({ slice }: IProps) => {
-  const variant = slice.variation === "textBlockColumns";
+  const { title, description } = slice.primary;
+
+  let variation: IVariation = {
+    section: "md:w-[50vw] m-auto",
+  };
+
+  if (slice.variation === "textBlockColumns") {
+    variation = {
+      section: "m-8",
+      title: "text-center",
+      description: "md:columns-2 md:gap-6",
+    };
+  }
 
   return (
-    <section className={`${!variant ? "md:w-[50vw] m-auto" : "m-8"} mt-8`}>
-      <div
-        className={`${
-          variant && "text-center"
-        } small-block-title text-slate-700`}
-      >
-        <PrismicRichText field={slice.primary.title} />
+    <section className={`${variation.section} my-12`}>
+      <div className={`${variation.title} small-block-title text-slate-700`}>
+        <PrismicRichText field={title} />
       </div>
-      <div className={`${variant && "md:columns-2 md:gap-6"} mt-4`}>
-        <PrismicRichText field={slice.primary.description} />
+      <div className={`${variation.description} text-justify mt-4`}>
+        <PrismicRichText field={description} />
       </div>
     </section>
   );

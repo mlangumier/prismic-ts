@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { LinkComponent } from "@/components/link";
 import { createClient } from "@/prismicio";
 import { asText } from "@prismicio/client";
-import { PrismicRichText } from "@prismicio/react";
-import { PrismicNextLink } from "@prismicio/next";
+import { PrismicRichText, SliceZone } from "@prismicio/react";
+import { components } from "@/slices";
 
 interface IProps {
   params: {
@@ -30,6 +30,9 @@ export default async function Home({ params: { locale } }: IProps) {
   const thematics = await client
     .getAllByType("thematic", { lang: locale })
     .catch(() => notFound());
+  const typology = await client
+    .getAllByType("typology", { lang: locale })
+    .catch(() => notFound());
   const regions = await client
     .getAllByType("region", { lang: locale })
     .catch(() => notFound());
@@ -41,22 +44,9 @@ export default async function Home({ params: { locale } }: IProps) {
     .catch(() => notFound());
 
   return (
-    <main className="mx-2">
+    <>
       <div className="py-8 max-w-[500px] m-auto text-center">
         <PrismicRichText field={page.data.description} />
-      </div>
-
-      <div className="text-center py-4">
-        <h4 className="text-xl mb-6">Thématiques</h4>
-        <div className="flex justify-center items-center gap-4">
-          {thematics?.map((thematic) => (
-            <LinkComponent
-              url={thematic.url!}
-              text={thematic.data.label}
-              key={thematic.id}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="text-center py-4">
@@ -86,7 +76,7 @@ export default async function Home({ params: { locale } }: IProps) {
       </div>
 
       <div className="text-center py-4">
-        <h4 className="text-xl mb-6">Villes</h4>
+        <h4 className="text-xl mb-6">Hôtels</h4>
         <div className="flex justify-center items-center gap-4">
           {hotels?.map((hotel) => (
             <LinkComponent
@@ -98,7 +88,33 @@ export default async function Home({ params: { locale } }: IProps) {
         </div>
       </div>
 
-      {/* <SliceZone slices={page.data.slices} components={components} /> */}
-    </main>
+      <div className="text-center py-4">
+        <h4 className="text-xl mb-6">Thématiques</h4>
+        <div className="flex justify-center items-center gap-4">
+          {thematics?.map((thematic) => (
+            <LinkComponent
+              url={thematic.url!}
+              text={thematic.data.label}
+              key={thematic.id}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="text-center py-4">
+        <h4 className="text-xl mb-6">Typologies</h4>
+        <div className="flex justify-center items-center gap-4">
+          {typology?.map((typology) => (
+            <LinkComponent
+              url={typology.url!}
+              text={typology.data.label}
+              key={typology.id}
+            />
+          ))}
+        </div>
+      </div>
+
+      <SliceZone slices={page.data.slices} components={components} />
+    </>
   );
 }

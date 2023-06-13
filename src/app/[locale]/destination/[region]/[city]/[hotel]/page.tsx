@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface IProps {
-  uid: string;
+  hotel: string;
 }
 
 export async function generateMetadata({
@@ -16,7 +16,7 @@ export async function generateMetadata({
   const client = createClient();
 
   const page = await client
-    .getByUID("hotel", params.uid)
+    .getByUID("hotel", params.hotel)
     .catch(() => notFound());
 
   return { title: page.data.meta_title };
@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: IProps }) {
   const client = createClient();
 
   const page = await client
-    .getByUID("hotel", params.uid, {
+    .getByUID("hotel", params.hotel, {
       fetchLinks: ["thematic.label", "city.name", "city.region", "region.name"],
     })
     .catch(notFound);

@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface IProps {
-  uid: string;
+  city: string;
 }
 
 export async function generateMetadata({
@@ -16,7 +16,7 @@ export async function generateMetadata({
   const client = createClient();
 
   const page = await client
-    .getByUID("city", params.uid)
+    .getByUID("city", params.city)
     .catch(() => notFound());
 
   return { title: page.data.meta_title || "Ville | Prismic TS" };
@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: IProps }) {
   const client = createClient();
 
   const page = await client
-    .getByUID("city", params.uid)
+    .getByUID("city", params.city)
     .catch(() => notFound());
 
   const hotels = await client
@@ -55,9 +55,7 @@ export default async function Page({ params }: { params: IProps }) {
       </div>
 
       <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
-        <h4 className="text-xl mb-6">
-          Thématiques (need to only keep relevant ones)
-        </h4>
+        <h4 className="text-xl mb-6">Thématiques</h4>
         <div className="flex justify-center items-center gap-4">
           {thematics?.map((thematic: Content.ThematicDocument) => (
             <LinkComponent

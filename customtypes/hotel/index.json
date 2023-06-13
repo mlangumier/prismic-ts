@@ -34,6 +34,35 @@
             }
           }
         }
+      },
+      "typologies": {
+        "type": "Group",
+        "config": {
+          "label": "Typologies",
+          "fields": {
+            "typology": {
+              "type": "Link",
+              "config": {
+                "label": "Typology",
+                "select": "document",
+                "customtypes": ["typology"]
+              }
+            }
+          }
+        }
+      },
+      "image": {
+        "type": "Image",
+        "config": { "label": "Image", "constraint": {}, "thumbnails": [] }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Description",
+          "placeholder": "Description of the hotel, the environment and what makes it unique and interesting.",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading3,heading4,heading5,heading6,strong,em,hyperlink,embed,list-item,o-list-item,rtl,image"
+        }
       }
     },
     "SEO & Metadata": {

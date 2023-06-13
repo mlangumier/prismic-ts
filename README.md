@@ -35,3 +35,8 @@ const hotels = await client.getAllByType("hotel", {
   filters: filter.at("my.hotel.thematics.thematic", thematic.id),
 });
 ```
+
+Question sur les URL
+J'ai du mal à voir comment je vais devoir gérer les URL pour ce projet. Pour les URL fixes, pas de problème mais d'après la maquette on a pas mal de parties dynamiques et je suis un peu perdu de ce côté-là, par rapport aux fonctionnement de Next (structure de dossier) et Primsic (gestion des url).
+Par exemple, comment on gère qu'une page Thématique doit apparaitre dans plusieurs URLs comme `/inspiration/:thematic`, `destination/:region/:thematic`, `destination/:city/:thematic` ?
+(et du coup, on a la question avec city & region qui peuvent être au même niveau dans l'url)

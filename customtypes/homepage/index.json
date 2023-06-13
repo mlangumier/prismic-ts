@@ -25,7 +25,12 @@
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
-        "config": { "choices": {} }
+        "config": {
+          "choices": {
+            "image_text_cta": { "type": "SharedSlice" },
+            "text_block": { "type": "SharedSlice" }
+          }
+        }
       }
     },
     "SEO & Metadata": {

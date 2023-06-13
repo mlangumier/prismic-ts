@@ -147,7 +147,7 @@ interface HomepageDocumentData {
  * Slice for *Homepage → Slice Zone*
  *
  */
-type HomepageDocumentDataSlicesSlice = never;
+type HomepageDocumentDataSlicesSlice = ImageTextCtaSlice | TextBlockSlice;
 /**
  * Homepage document from Prismic
  *
@@ -199,6 +199,39 @@ interface HotelDocumentData {
    */
   thematics: prismic.GroupField<Simplify<HotelDocumentDataThematicsItem>>;
   /**
+   * Typologies field in *Hotel*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hotel.typologies[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  typologies: prismic.GroupField<Simplify<HotelDocumentDataTypologiesItem>>;
+  /**
+   * Image field in *Hotel*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hotel.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  image: prismic.ImageField<never>;
+  /**
+   * Description field in *Hotel*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Description of the hotel, the environment and what makes it unique and interesting.
+   * - **API ID Path**: hotel.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+   *
+   */
+  description: prismic.RichTextField;
+  /**
    * Meta Description field in *Hotel*
    *
    * - **Field Type**: Rich Text
@@ -247,6 +280,22 @@ export interface HotelDocumentDataThematicsItem {
    *
    */
   thematic: prismic.ContentRelationshipField<"thematic">;
+}
+/**
+ * Item in Hotel → Typologies
+ *
+ */
+export interface HotelDocumentDataTypologiesItem {
+  /**
+   * Typology field in *Hotel → Typologies*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hotel.typologies[].typology
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  typology: prismic.ContentRelationshipField<"typology">;
 }
 /**
  * Hotel document from Prismic
@@ -445,79 +494,76 @@ export type ThematicDocument<Lang extends string = string> =
     "thematic",
     Lang
   >;
+/** Content for Typology documents */
+interface TypologyDocumentData {
+  /**
+   * Label field in *Typology*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Name of the typology
+   * - **API ID Path**: typology.label
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  label: prismic.KeyTextField;
+  /**
+   * Meta Description field in *Typology*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: typology.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+   *
+   */
+  meta_description: prismic.RichTextField;
+  /**
+   * Meta Image field in *Typology*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: typology.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  meta_image: prismic.ImageField<never>;
+  /**
+   * Meta Title field in *Typology*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: typology.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  meta_title: prismic.KeyTextField;
+}
+/**
+ * Typology document from Prismic
+ *
+ * - **API ID**: `typology`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TypologyDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<TypologyDocumentData>,
+    "typology",
+    Lang
+  >;
 export type AllDocumentTypes =
   | CityDocument
   | HomepageDocument
   | HotelDocument
   | RegionDocument
   | SettingsDocument
-  | ThematicDocument;
-/**
- * Primary content in CardImageText → Primary
- *
- */
-interface CardImageTextSliceDefaultPrimary {
-  /**
-   * Title field in *CardImageText → Primary*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: Card title
-   * - **API ID Path**: card_image_text.primary.title
-   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-   *
-   */
-  title: prismic.TitleField;
-  /**
-   * Image field in *CardImageText → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: card_image_text.primary.image
-   * - **Documentation**: https://prismic.io/docs/core-concepts/image
-   *
-   */
-  image: prismic.ImageField<never>;
-  /**
-   * link_path field in *CardImageText → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: card_image_text.primary.link_path
-   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-   *
-   */
-  link_path: prismic.LinkField;
-}
-/**
- * Default variation for CardImageText Slice
- *
- * - **API ID**: `default`
- * - **Description**: `CardImageText`
- * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
- *
- */
-export type CardImageTextSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<CardImageTextSliceDefaultPrimary>,
-  never
->;
-/**
- * Slice variation for *CardImageText*
- *
- */
-type CardImageTextSliceVariation = CardImageTextSliceDefault;
-/**
- * CardImageText Shared Slice
- *
- * - **API ID**: `card_image_text`
- * - **Description**: `CardImageText`
- * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
- *
- */
-export type CardImageTextSlice = prismic.SharedSlice<
-  "card_image_text",
-  CardImageTextSliceVariation
->;
+  | ThematicDocument
+  | TypologyDocument;
 /**
  * Primary content in ImageTextCta → Primary
  *
@@ -788,6 +834,7 @@ declare module "@prismicio/client" {
       HomepageDocument,
       HotelDocumentData,
       HotelDocumentDataThematicsItem,
+      HotelDocumentDataTypologiesItem,
       HotelDocument,
       RegionDocumentData,
       RegionDocument,
@@ -796,11 +843,9 @@ declare module "@prismicio/client" {
       SettingsDocument,
       ThematicDocumentData,
       ThematicDocument,
+      TypologyDocumentData,
+      TypologyDocument,
       AllDocumentTypes,
-      CardImageTextSliceDefaultPrimary,
-      CardImageTextSliceDefault,
-      CardImageTextSliceVariation,
-      CardImageTextSlice,
       ImageTextCtaSliceDefaultPrimary,
       ImageTextCtaSliceDefault,
       ImageTextCtaSliceImageRightSidePrimary,

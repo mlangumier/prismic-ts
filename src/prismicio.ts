@@ -1,3 +1,4 @@
+import { AllDocumentTypes } from "./../prismicio-types.d";
 import * as prismic from "@prismicio/client";
 import * as prismicNext from "@prismicio/next";
 import sm from "../slicemachine.config.json";
@@ -22,54 +23,55 @@ const routes: prismic.ClientConfig["routes"] = [
     uid: "homepage",
     path: "/:lang?",
   },
-  {
-    type: "thematic",
-    path: "/:lang/inspiration/:uid",
-  },
+  // {
+  //   type: "destination",
+  //   uid: "destination",
+  //   path: "/:lang/destination",
+  // },
+  // TODO: setup linkResolver for destinations (area,region,city)
   {
     type: "region",
     path: "/:lang/destination/:uid",
   },
+  // {
+  //   type: "inspiration",
+  //   uid: "inspiration",
+  //   path: "/:lang/inspiration",
+  // },
+  {
+    type: "thematic",
+    path: "/:lang/inspriation/:uid",
+  },
+  //* NEED: path: "/:lang/destination/:destination/inspiration/:thematic"
   {
     type: "city",
     resolvers: { region: "region" },
-    path: "/:lang?/city/:region/:uid",
+    path: "/:lang/destination/:region?/:uid",
   },
   {
     type: "hotel",
-    path: "/:lang?/hotel/:uid",
+    resolvers: { city: "city", region: "city.region" },
+    path: "/:lang/destination/:region?/:city/:uid",
   },
-  // -----
-  // {
-  //   type: "thematic",
-  //   path: "/:lang/inspiration/:uid",
-  // },
-  //* OR
-  // {
-  //   type: "typology",
-  //   path: "/:lang/inspiration/:uid",
-  // },
-  //* "/:lang/inspiration/:slug -> Slug either: [thematic] or [typology]
-  // -----
-  // {
-  //   type: "region",
-  //   path: "/:lang/destination/:uid",
-  // },
-  // {
-  //   type: "city",
-  //   resolvers: {
-  //     uid: "city.region",
-  //   },
-  //   path: "/:lang/destination/:uid/:city", -> [uid] = region
-  // },
-  // {
-  //   type: "region",
-  //   resolvers: {
-  //     thematic: "thematic",
-  //   },
-  //   path: "/:lang/destination/:uid/:thematic",
-  // },
 ];
+
+/**
+ * The project's Prismic Link Resolver. This function determines the URL for a given Prismic document.
+ *
+ * @type {prismicH.LinkResolverFunction}
+ */
+export const linkResolver = (link: any) => {
+  console.log("------WAS HERE!", link);
+
+  switch (link.type) {
+    case "thematic": {
+      return `/${link.lang}/inspiration/${link.uid}`;
+    }
+    default: {
+      return null;
+    }
+  }
+};
 
 /**
  * Creates a Prismic client for the project's repository. The client is used to

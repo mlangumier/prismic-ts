@@ -13,7 +13,9 @@ interface IProps {
 
 async function getSettings(locale: string) {
   const client = createClient();
-  const settings = await client.getSingle("settings", { lang: locale });
+  const settings = await client.getSingle("settings", {
+    lang: locale,
+  });
 
   return settings;
 }
@@ -30,15 +32,17 @@ export default async function RootLayout({ children, params }: IProps) {
   const settings = await getSettings(params.locale);
 
   return (
-    <html>
-      <body>
+    <html className="h-screen">
+      <body className="">
         {/* @ts-expect-error Async Server Component */}
         <Header settings={settings} />
 
         {/* TODO: h-full */}
         <main className="">{children}</main>
 
-        {/* footer */}
+        {/* @ts-expect-error Async Server Component */}
+        <Footer />
+
         <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>
@@ -56,7 +60,7 @@ async function Header({ settings }: { settings: SettingsDocument }) {
   const locales = await getLocales(settings, client);
 
   return (
-    <header className="bg-slate-50 shadow-md py-4 px-6">
+    <header className="bg-slate-50 shadow-md py-4 px-6 mb-12">
       <div className="flex justify-between items-center">
         <PrismicNextLink href="/" className="">
           {settings.data.site_title}
@@ -97,4 +101,8 @@ async function Header({ settings }: { settings: SettingsDocument }) {
       </div>
     </header>
   );
+}
+
+async function Footer() {
+  return <footer className="h-[80px] mt-20 bg-slate-800 text-white"></footer>;
 }

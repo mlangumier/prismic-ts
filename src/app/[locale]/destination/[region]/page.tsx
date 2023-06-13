@@ -5,7 +5,7 @@ import { Content, filter } from "@prismicio/client";
 import { LinkComponent } from "@/components/link";
 
 interface IProps {
-  uid: string;
+  region: string;
 }
 
 export async function generateMetadata({
@@ -16,7 +16,7 @@ export async function generateMetadata({
   const client = createClient();
 
   const page = await client
-    .getByUID("region", params.uid)
+    .getByUID("region", params.region)
     .catch(() => notFound());
 
   return { title: page.data.meta_title || "Region | Prismic TS" };
@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: IProps }) {
   const client = createClient();
 
   const page = await client
-    .getByUID("region", params.uid)
+    .getByUID("region", params.region)
     .catch(() => notFound());
 
   const cities = await client
