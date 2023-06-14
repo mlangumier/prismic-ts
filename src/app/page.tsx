@@ -1,35 +1,52 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { LinkComponent } from "@/components/link";
 import { createClient } from "@/prismicio";
 import { asText } from "@prismicio/client";
 import { PrismicRichText, SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
+import { notFound } from "next/navigation";
 
-export async function generateMetaData(): Promise<Metadata> {
+async function getHomepageData() {
   const client = createClient();
   const page = await client.getSingle("homepage");
 
+  return page;
+}
+
+async function getDocuments() {
+  const client = createClient();
+
+  try {
+    const regions = await client.getAllByType("region");
+
+    const departments = await client.getAllByType("department");
+
+    const cities = await client.getAllByType("city");
+
+    const thematics = await client.getAllByType("thematic");
+
+    const hotels = await client.getAllByType("hotel");
+
+    return { regions, departments, cities, thematics, hotels };
+  } catch (error) {
+    console.log("----Homepage Error", error);
+    notFound();
+  }
+}
+
+export async function generateMetaData(): Promise<Metadata> {
+  const page = await getHomepageData();
+
   return {
-    title: page.data.title,
+    title: page.data.title || "Prismic TS",
     description: asText(page.data.meta_description),
   };
 }
 
 export default async function Home() {
-  const client = createClient();
-
-  const page = await client.getSingle("homepage");
-
-  const regions = await client.getAllByType("region");
-
-  const departments = await client.getAllByType("department");
-
-  const cities = await client.getAllByType("city");
-
-  const thematics = await client.getAllByType("thematic");
-
-  const hotels = await client.getAllByType("hotel");
+  const page = await getHomepageData();
+  const { regions, departments, cities, thematics, hotels } =
+    await getDocuments();
 
   return (
     <>

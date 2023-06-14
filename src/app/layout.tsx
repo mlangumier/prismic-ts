@@ -13,6 +13,10 @@ interface IProps {
   children: ReactNode;
 }
 
+// TODO: Manage locale:
+// https://nextjs.org/docs/app/building-your-application/routing/internationalization
+// Get Next.config for languages
+
 async function getSettings() {
   const client = createClient();
   const settings = await client.getSingle("settings");
@@ -44,12 +48,6 @@ export default async function RootLayout({ children }: IProps) {
   );
 }
 
-// TODO: change that to Object<{slug, initial,label, icon}> + manage: isActive
-const localeLabels = {
-  "en-us": "EN",
-  "fr-fr": "FR",
-};
-// Get Next.config languages
 async function Header({ settings }: { settings: SettingsDocument }) {
   // const client = createClient();
   // const locales = await getLocales(settings, client);
