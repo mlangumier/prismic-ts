@@ -28,6 +28,7 @@ export default async function Page({ params }: { params: IProps }) {
     .getByUID("thematic", params.thematic)
     .catch(() => notFound());
 
+  // TODO: instead of hotels, get region/department/cities with current Thematic, on click -> /destination/:destination/thematic/:thematic
   const hotels = await client
     .getAllByType("hotel", {
       filters: [
@@ -49,11 +50,7 @@ export default async function Page({ params }: { params: IProps }) {
         <h4 className="text-xl mb-6">Hôtels</h4>
         <div className="flex justify-center items-center gap-4">
           {hotels?.map((hotel: Content.HotelDocument) => (
-            <LinkComponent
-              url={hotel.url!}
-              text={hotel.data.name}
-              key={hotel.id}
-            />
+            <LinkComponent doc={hotel} text={hotel.data.name} key={hotel.id} />
           ))}
         </div>
       </div>

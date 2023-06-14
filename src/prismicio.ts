@@ -21,52 +21,50 @@ const routes: prismic.ClientConfig["routes"] = [
   {
     type: "homepage",
     uid: "homepage",
-    path: "/:lang?",
+    path: "/lang?",
   },
   // {
   //   type: "destination",
   //   uid: "destination",
-  //   path: "/:lang/destination",
+  //   path: "/destination",
   // },
-  // TODO: setup linkResolver for destinations (area,region,city)
   {
     type: "region",
-    path: "/:lang/destination/:uid",
+    path: "/destination/:uid",
+  },
+  {
+    type: "department",
+    path: "/destination/:uid",
+  },
+  {
+    type: "city",
+    path: "/destination/:uid",
   },
   // {
-  //   type: "inspiration",
-  //   uid: "inspiration",
-  //   path: "/:lang/inspiration",
+  //   type: "thematic",
+  //   uid: "thematic",
+  //   path: "/thematic",
   // },
   {
     type: "thematic",
-    path: "/:lang/inspriation/:uid",
+    path: "/thematic/:uid",
   },
-  //* NEED: path: "/:lang/destination/:destination/inspiration/:thematic"
-  {
-    type: "city",
-    resolvers: { region: "region" },
-    path: "/:lang/destination/:region?/:uid",
-  },
-  {
-    type: "hotel",
-    resolvers: { city: "city", region: "city.region" },
-    path: "/:lang/destination/:region?/:city/:uid",
-  },
+  // {
+  //   type: "hotel",
+  //   resolvers: { destination: "destination", thematic: "thematic" },
+  //   path: "/destination/:destination/thematic/:thematic",
+  // },
 ];
 
 /**
  * The project's Prismic Link Resolver. This function determines the URL for a given Prismic document.
- *
- * @type {prismicH.LinkResolverFunction}
+ * *Not necessary right now, but might be useful at some point
  */
-export const linkResolver = (link: any) => {
-  console.log("------WAS HERE!", link);
+export const linkResolver: prismic.LinkResolverFunction = (doc) => {
+  // console.log("----- LINK RESOLVER ----- \n", doc);
 
-  switch (link.type) {
-    case "thematic": {
-      return `/${link.lang}/inspiration/${link.uid}`;
-    }
+  switch (doc.type) {
+    // return `/destination/${doc.uid}/thematic/${thematic.uid}`
     default: {
       return null;
     }

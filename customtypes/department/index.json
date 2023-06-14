@@ -1,15 +1,23 @@
 {
-  "id": "typology",
-  "label": "Typology",
+  "id": "department",
+  "label": "Department",
   "format": "page",
   "repeatable": true,
   "status": true,
   "json": {
     "Main": {
       "uid": { "config": { "label": "UID" }, "type": "UID" },
-      "label": {
+      "name": {
         "type": "Text",
-        "config": { "label": "Label", "placeholder": "Name of the typology" }
+        "config": { "label": "Name", "placeholder": "Name of the department" }
+      },
+      "region": {
+        "type": "Link",
+        "config": {
+          "label": "Region",
+          "select": "document",
+          "customtypes": ["region"]
+        }
       }
     },
     "SEO & Metadata": {

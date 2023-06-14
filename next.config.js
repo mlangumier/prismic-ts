@@ -14,7 +14,7 @@ module.exports = async () => {
     i18n: {
       locales,
       // This is the default locale. It will not be included in URLs.
-      defaultLocale: locales[1],
+      defaultLocale: locales[0],
     },
   };
 };

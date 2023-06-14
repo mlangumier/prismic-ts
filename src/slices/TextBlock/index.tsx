@@ -15,19 +15,19 @@ const TextBlock = ({ slice }: IProps) => {
   const { title, description } = slice.primary;
 
   let variation: IVariation = {
-    section: "md:w-[50vw] m-auto",
+    section: "md:w-[50vw] mx-auto",
   };
 
   if (slice.variation === "textBlockColumns") {
     variation = {
-      section: "m-8",
+      section: "mx-8",
       title: "text-center",
       description: "md:columns-2 md:gap-6",
     };
   }
 
   return (
-    <section className={`${variation.section} my-12`}>
+    <section className={`${variation.section} my-8`}>
       <div className={`${variation.title} small-block-title text-slate-700`}>
         <PrismicRichText field={title} />
       </div>

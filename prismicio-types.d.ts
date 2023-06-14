@@ -19,16 +19,16 @@ interface CityDocumentData {
    */
   name: prismic.KeyTextField;
   /**
-   * Region field in *City*
+   * Department field in *City*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: city.region
+   * - **API ID Path**: city.department
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
    *
    */
-  region: prismic.ContentRelationshipField<"region">;
+  department: prismic.ContentRelationshipField<"department">;
   /**
    * Meta Description field in *City*
    *
@@ -74,6 +74,79 @@ interface CityDocumentData {
  */
 export type CityDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<CityDocumentData>, "city", Lang>;
+/** Content for Department documents */
+interface DepartmentDocumentData {
+  /**
+   * Name field in *Department*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Name of the department
+   * - **API ID Path**: department.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  name: prismic.KeyTextField;
+  /**
+   * Region field in *Department*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: department.region
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  region: prismic.ContentRelationshipField<"region">;
+  /**
+   * Meta Description field in *Department*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: department.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+   *
+   */
+  meta_description: prismic.RichTextField;
+  /**
+   * Meta Image field in *Department*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: department.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  meta_image: prismic.ImageField<never>;
+  /**
+   * Meta Title field in *Department*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: department.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  meta_title: prismic.KeyTextField;
+}
+/**
+ * Department document from Prismic
+ *
+ * - **API ID**: `department`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type DepartmentDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<DepartmentDocumentData>,
+    "department",
+    Lang
+  >;
 /** Content for Homepage documents */
 interface HomepageDocumentData {
   /**
@@ -147,7 +220,10 @@ interface HomepageDocumentData {
  * Slice for *Homepage → Slice Zone*
  *
  */
-type HomepageDocumentDataSlicesSlice = ImageTextCtaSlice | TextBlockSlice;
+type HomepageDocumentDataSlicesSlice =
+  | ImageTextCtaSlice
+  | TextBlockSlice
+  | BlankSpaceSlice;
 /**
  * Homepage document from Prismic
  *
@@ -494,76 +570,73 @@ export type ThematicDocument<Lang extends string = string> =
     "thematic",
     Lang
   >;
-/** Content for Typology documents */
-interface TypologyDocumentData {
-  /**
-   * Label field in *Typology*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: Name of the typology
-   * - **API ID Path**: typology.label
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-   *
-   */
-  label: prismic.KeyTextField;
-  /**
-   * Meta Description field in *Typology*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: typology.meta_description
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-   *
-   */
-  meta_description: prismic.RichTextField;
-  /**
-   * Meta Image field in *Typology*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: typology.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/core-concepts/image
-   *
-   */
-  meta_image: prismic.ImageField<never>;
-  /**
-   * Meta Title field in *Typology*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: typology.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-   *
-   */
-  meta_title: prismic.KeyTextField;
-}
-/**
- * Typology document from Prismic
- *
- * - **API ID**: `typology`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type TypologyDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
-    Simplify<TypologyDocumentData>,
-    "typology",
-    Lang
-  >;
 export type AllDocumentTypes =
   | CityDocument
+  | DepartmentDocument
   | HomepageDocument
   | HotelDocument
   | RegionDocument
   | SettingsDocument
-  | ThematicDocument
-  | TypologyDocument;
+  | ThematicDocument;
+/**
+ * Default variation for BlankSpace Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `Default`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type BlankSpaceSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+/**
+ * Small variation for BlankSpace Slice
+ *
+ * - **API ID**: `small`
+ * - **Description**: `Default`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type BlankSpaceSliceSmall = prismic.SharedSliceVariation<
+  "small",
+  Record<string, never>,
+  never
+>;
+/**
+ * Large variation for BlankSpace Slice
+ *
+ * - **API ID**: `large`
+ * - **Description**: `Default`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type BlankSpaceSliceLarge = prismic.SharedSliceVariation<
+  "large",
+  Record<string, never>,
+  never
+>;
+/**
+ * Slice variation for *BlankSpace*
+ *
+ */
+type BlankSpaceSliceVariation =
+  | BlankSpaceSliceDefault
+  | BlankSpaceSliceSmall
+  | BlankSpaceSliceLarge;
+/**
+ * BlankSpace Shared Slice
+ *
+ * - **API ID**: `blank_space`
+ * - **Description**: `BlankSpace`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type BlankSpaceSlice = prismic.SharedSlice<
+  "blank_space",
+  BlankSpaceSliceVariation
+>;
 /**
  * Primary content in ImageTextCta → Primary
  *
@@ -829,6 +902,8 @@ declare module "@prismicio/client" {
     export type {
       CityDocumentData,
       CityDocument,
+      DepartmentDocumentData,
+      DepartmentDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
       HomepageDocument,
@@ -843,9 +918,12 @@ declare module "@prismicio/client" {
       SettingsDocument,
       ThematicDocumentData,
       ThematicDocument,
-      TypologyDocumentData,
-      TypologyDocument,
       AllDocumentTypes,
+      BlankSpaceSliceDefault,
+      BlankSpaceSliceSmall,
+      BlankSpaceSliceLarge,
+      BlankSpaceSliceVariation,
+      BlankSpaceSlice,
       ImageTextCtaSliceDefaultPrimary,
       ImageTextCtaSliceDefault,
       ImageTextCtaSliceImageRightSidePrimary,

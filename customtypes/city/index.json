@@ -11,12 +11,12 @@
         "type": "Text",
         "config": { "label": "Name", "placeholder": "Name of the city" }
       },
-      "region": {
+      "department": {
         "type": "Link",
         "config": {
-          "label": "Region",
+          "label": "Department",
           "select": "document",
-          "customtypes": ["region"]
+          "customtypes": ["department"]
         }
       }
     },

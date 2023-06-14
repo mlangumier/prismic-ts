@@ -28,7 +28,8 @@
         "config": {
           "choices": {
             "image_text_cta": { "type": "SharedSlice" },
-            "text_block": { "type": "SharedSlice" }
+            "text_block": { "type": "SharedSlice" },
+            "blank_space": { "type": "SharedSlice" }
           }
         }
       }

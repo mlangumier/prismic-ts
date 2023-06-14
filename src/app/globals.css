@@ -2,8 +2,16 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* @layer base {
+  h1 {
+    @apply text-3xl;
+  }
+} */
+
 @layer components {
   .small-block-title {
     @apply text-2xl uppercase font-bold;
   }
 }
+
+/* @layer utilities {} */

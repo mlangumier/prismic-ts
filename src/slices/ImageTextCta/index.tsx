@@ -10,7 +10,7 @@ interface IProps {
 const ImageTextCta = ({ slice }: IProps) => {
   const { image, title, description, cta_link, cta_text } = slice.primary;
 
-  const variation = {
+  let variation = {
     section: "md:flex-row",
   };
 
