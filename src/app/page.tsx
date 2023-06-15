@@ -57,7 +57,7 @@ export default async function Home() {
       {regions ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Régions</h4>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             {regions?.map((region) => (
               <LinkComponent document={region} key={region.id}>
                 {region.data.name}
@@ -70,7 +70,7 @@ export default async function Home() {
       {departments ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Departments</h4>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             {departments?.map((dept) => (
               <LinkComponent document={dept} key={dept.id}>
                 {dept.data.name}
@@ -83,7 +83,7 @@ export default async function Home() {
       {cities.length ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Villes</h4>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             {cities?.map((city) => (
               <LinkComponent document={city} key={city.id}>
                 {city.data.name}
@@ -96,7 +96,7 @@ export default async function Home() {
       {thematics ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Thématiques</h4>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             {thematics?.map((thematic) => (
               <LinkComponent document={thematic} key={thematic.id}>
                 {thematic.data.label}
@@ -109,7 +109,7 @@ export default async function Home() {
       {hotels ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Hôtels</h4>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             {hotels?.map((hotel) => (
               <LinkComponent document={hotel} key={hotel.id}>
                 {hotel.data.name}

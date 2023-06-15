@@ -48,7 +48,7 @@ export default async function Page({ params }: { params: IProps }) {
 
       <div className="mt-8 text-center border-y-[1px] py-8 border-slate-300">
         <h4 className="text-xl mb-6">Hôtels</h4>
-        <div className="flex justify-center items-center gap-4">
+        <div className="flex flex-wrap justify-center items-center gap-4">
           {hotels?.map((hotel: Content.HotelDocument) => (
             <LinkComponent doc={hotel} text={hotel.data.name} key={hotel.id} />
           ))}

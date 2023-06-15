@@ -2,11 +2,14 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* @layer base {
+@layer base {
   h1 {
     @apply text-3xl;
   }
-} */
+  h2 {
+    @apply text-2xl;
+  }
+}
 
 @layer components {
   .small-block-title {

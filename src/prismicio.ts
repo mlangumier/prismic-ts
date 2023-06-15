@@ -1,6 +1,6 @@
-import { AllDocumentTypes } from "./../prismicio-types.d";
 import * as prismic from "@prismicio/client";
 import * as prismicNext from "@prismicio/next";
+import type { FilledLinkToDocumentField } from "@prismicio/types";
 import sm from "../slicemachine.config.json";
 
 /**
@@ -17,15 +17,19 @@ export const repositoryName = prismic.getRepositoryName(sm.apiEndpoint);
  * {@link https://prismic.io/docs/route-resolver}
  *
  * * ----- Last URL propositions:
+ *
  * /thematic/:thematicId
  * /destination/:regionId
- * /destination/:regionId/thematic/:thematicId
+ *! /destination/:regionId/thematic/:thematicId -> !== /thematic/:uid
+ *
  * /destination/:regionId/:countyId
- * /destination/:regionId/:countyId/thematic/:thematicId
+ ** /destination/:regionId/:countyId/thematic/:thematicId
+ *
  * /destination/:regionId/:countyId/:cityId
- * /destination/:regionId/:countyId/:cityId/thematic/:thematicId
+ ** /destination/:regionId/:countyId/:cityId/thematic/:thematicId
+ *
  * /destination/:regionId/:countyId/paris/:districtId
- * /destination/:regionId/:countyId/paris/:districtId/thematic/:thematicId
+ ** /destination/:regionId/:countyId/paris/:districtId/thematic/:thematicId
  *
  */
 const routes: prismic.ClientConfig["routes"] = [
@@ -42,13 +46,23 @@ const routes: prismic.ClientConfig["routes"] = [
     type: "region",
     path: "/destination/:uid",
   },
+  // ----------------------------- //
+  //* No relationship thematic-region, resolver not possible
+  // {
+  //   type: "thematic",
+  //   resolvers: { region: "region" },
+  //   path: "/destination/:region/thematic/uid",
+  // },
+  // ----------------------------- //
   {
     type: "department",
-    path: "/destination/:uid",
+    resolvers: { region: "region" },
+    path: "/destination/:region/:uid",
   },
   {
     type: "city",
-    path: "/destination/:uid",
+    resolvers: { department: "department", region: "department.region" },
+    path: "/destination/:region/:department/:uid",
   },
 ];
 
@@ -56,11 +70,23 @@ const routes: prismic.ClientConfig["routes"] = [
  * The project's Prismic Link Resolver. This function determines the URL for a given Prismic document.
  * *Not necessary right now, but might be useful at some point
  */
-export const linkResolver: prismic.LinkResolverFunction = (doc) => {
-  // console.log("----- LINK RESOLVER ----- \n", doc);
-
+export const linkResolver: prismic.LinkResolverFunction = (
+  doc: FilledLinkToDocumentField
+) => {
   switch (doc.type) {
-    // return `/destination/${doc.uid}/thematic/${thematic.uid}`
+    case "district": {
+      //! Check: "Forbidden: You don't have permission to access /auvergne-rhone-alpes/rhone/lyon/district-3 on this server.""
+      //* City.URL provides full URL + district provides its own param
+      const cityUrl = doc.data.city.url;
+      return `/${cityUrl}/${doc.uid}`;
+    }
+
+    //* No way to get "region" from here, getting region.uid not possible
+    // case "thematic": {
+    //   console.log("--- Thematic:", doc);
+    // return `/destination/${region.uid}/thematic/${doc.uid}`;
+    // }
+
     default: {
       return null;
     }
