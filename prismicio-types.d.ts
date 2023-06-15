@@ -147,6 +147,79 @@ export type DepartmentDocument<Lang extends string = string> =
     "department",
     Lang
   >;
+/** Content for District documents */
+interface DistrictDocumentData {
+  /**
+   * Name field in *District*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: district.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  name: prismic.KeyTextField;
+  /**
+   * City field in *District*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: district.city
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  city: prismic.ContentRelationshipField<"city">;
+  /**
+   * Meta Description field in *District*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: district.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+   *
+   */
+  meta_description: prismic.RichTextField;
+  /**
+   * Meta Image field in *District*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: district.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  meta_image: prismic.ImageField<never>;
+  /**
+   * Meta Title field in *District*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: district.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  meta_title: prismic.KeyTextField;
+}
+/**
+ * District document from Prismic
+ *
+ * - **API ID**: `district`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type DistrictDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<DistrictDocumentData>,
+    "district",
+    Lang
+  >;
 /** Content for Homepage documents */
 interface HomepageDocumentData {
   /**
@@ -255,14 +328,14 @@ interface HotelDocumentData {
   /**
    * City field in *Hotel*
    *
-   * - **Field Type**: Content Relationship
+   * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: hotel.city
+   * - **API ID Path**: hotel.city[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
    *
    */
-  city: prismic.ContentRelationshipField<"city">;
+  city: prismic.GroupField<Simplify<HotelDocumentDataCityItem>>;
   /**
    * Thematics field in *Hotel*
    *
@@ -274,17 +347,6 @@ interface HotelDocumentData {
    *
    */
   thematics: prismic.GroupField<Simplify<HotelDocumentDataThematicsItem>>;
-  /**
-   * Typologies field in *Hotel*
-   *
-   * - **Field Type**: Group
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hotel.typologies[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/core-concepts/group
-   *
-   */
-  typologies: prismic.GroupField<Simplify<HotelDocumentDataTypologiesItem>>;
   /**
    * Image field in *Hotel*
    *
@@ -342,6 +404,32 @@ interface HotelDocumentData {
   meta_title: prismic.KeyTextField;
 }
 /**
+ * Item in Hotel → City
+ *
+ */
+export interface HotelDocumentDataCityItem {
+  /**
+   * City field in *Hotel → City*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hotel.city[].city
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  city: prismic.ContentRelationshipField<"city">;
+  /**
+   * District field in *Hotel → City*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hotel.city[].district
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  district: prismic.ContentRelationshipField<"district">;
+}
+/**
  * Item in Hotel → Thematics
  *
  */
@@ -356,22 +444,6 @@ export interface HotelDocumentDataThematicsItem {
    *
    */
   thematic: prismic.ContentRelationshipField<"thematic">;
-}
-/**
- * Item in Hotel → Typologies
- *
- */
-export interface HotelDocumentDataTypologiesItem {
-  /**
-   * Typology field in *Hotel → Typologies*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hotel.typologies[].typology
-   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-   *
-   */
-  typology: prismic.ContentRelationshipField<"typology">;
 }
 /**
  * Hotel document from Prismic
@@ -573,6 +645,7 @@ export type ThematicDocument<Lang extends string = string> =
 export type AllDocumentTypes =
   | CityDocument
   | DepartmentDocument
+  | DistrictDocument
   | HomepageDocument
   | HotelDocument
   | RegionDocument
@@ -904,12 +977,14 @@ declare module "@prismicio/client" {
       CityDocument,
       DepartmentDocumentData,
       DepartmentDocument,
+      DistrictDocumentData,
+      DistrictDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
       HomepageDocument,
       HotelDocumentData,
+      HotelDocumentDataCityItem,
       HotelDocumentDataThematicsItem,
-      HotelDocumentDataTypologiesItem,
       HotelDocument,
       RegionDocumentData,
       RegionDocument,

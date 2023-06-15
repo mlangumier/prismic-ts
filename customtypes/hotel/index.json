@@ -12,11 +12,27 @@
         "config": { "label": "Name", "placeholder": "The name of the hotel" }
       },
       "city": {
-        "type": "Link",
+        "type": "Group",
         "config": {
           "label": "City",
-          "select": "document",
-          "customtypes": ["city"]
+          "fields": {
+            "city": {
+              "type": "Link",
+              "config": {
+                "label": "City",
+                "select": "document",
+                "customtypes": ["city"]
+              }
+            },
+            "district": {
+              "type": "Link",
+              "config": {
+                "label": "District",
+                "select": "document",
+                "customtypes": ["district"]
+              }
+            }
+          }
         }
       },
       "thematics": {
@@ -30,22 +46,6 @@
                 "label": "Thematic",
                 "select": "document",
                 "customtypes": ["thematic"]
-              }
-            }
-          }
-        }
-      },
-      "typologies": {
-        "type": "Group",
-        "config": {
-          "label": "Typologies",
-          "fields": {
-            "typology": {
-              "type": "Link",
-              "config": {
-                "label": "Typology",
-                "select": "document",
-                "customtypes": ["typology"]
               }
             }
           }

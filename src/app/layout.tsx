@@ -7,7 +7,7 @@ import { SettingsDocument } from "../../prismicio-types";
 import { Metadata } from "next";
 import "./globals.css";
 
-const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
+// const roboto = Roboto({ weight: ["400", "700"], subsets: ["latin"] });
 
 interface IProps {
   children: ReactNode;
@@ -34,7 +34,8 @@ export default async function RootLayout({ children }: IProps) {
   const settings = await getSettings();
   return (
     <html className="h-screen">
-      <body className={`${roboto.className} min-h-screen flex flex-col`}>
+      {/* <body className={`${roboto.className} min-h-screen flex flex-col`}> */}
+      <body className="min-h-screen flex flex-col">
         {/* @ts-expect-error Async Server Component */}
         <Header settings={settings} />
 
@@ -76,6 +77,7 @@ async function Header({ settings }: { settings: SettingsDocument }) {
 
         <div>
           <ul className="flex flex-row gap-2">
+            <p>EN | FR</p>
             {/* {locales.map((locale, i) => {
               return (
                 <li className="" key={locale.lang}>

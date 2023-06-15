@@ -2,6 +2,7 @@
 
 import { PrismicNextLink, PrismicNextLinkProps } from "@prismicio/next";
 import { linkResolver } from "@/prismicio";
+import { useRouter } from "next/navigation";
 
 //TODO: add required props document + name
 export const LinkComponent = (props: PrismicNextLinkProps) => {
