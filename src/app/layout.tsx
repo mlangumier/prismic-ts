@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { PrismicPreview } from "@prismicio/next";
-import { createClient, repositoryName } from "@/prismicio";
-import { Roboto } from "next/font/google";
+import { createClient, repositoryName } from "@/routes/prismicio";
 import { PrismicNextLink } from "@prismicio/next";
 import { SettingsDocument } from "../../prismicio-types";
 import { Metadata } from "next";
@@ -17,21 +16,19 @@ interface IProps {
 // https://nextjs.org/docs/app/building-your-application/routing/internationalization
 // Get Next.config for languages
 
-async function getSettings() {
-  const client = createClient();
-  const settings = await client.getSingle("settings");
-
-  return settings;
-}
-
 export async function generateMetaData(): Promise<Metadata> {
+  const client = createClient();
+  const page = await client.getSingle("homepage");
+
   return {
-    title: "Prismic TS",
+    title: page.data.meta_title || "Prismic TS",
   };
 }
 
 export default async function RootLayout({ children }: IProps) {
-  const settings = await getSettings();
+  const client = createClient();
+  const settings = await client.getSingle("settings");
+
   return (
     <html className="h-screen">
       {/* <body className={`${roboto.className} min-h-screen flex flex-col`}> */}
