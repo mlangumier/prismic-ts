@@ -1,7 +1,8 @@
 import * as prismic from "@prismicio/client";
 import * as prismicNext from "@prismicio/next";
 import type { FilledLinkToDocumentField } from "@prismicio/types";
-import sm from "../slicemachine.config.json";
+import sm from "../../slicemachine.config.json";
+import { ERoutingPath } from "./routes";
 
 /**
  * The project's Prismic repository name.
@@ -36,33 +37,7 @@ const routes: prismic.ClientConfig["routes"] = [
   {
     type: "homepage",
     uid: "homepage",
-    path: "/",
-  },
-  {
-    type: "thematic",
-    path: "/thematic/:uid",
-  },
-  {
-    type: "region",
-    path: "/destination/:uid",
-  },
-  // ----------------------------- //
-  //* No relationship thematic-region, resolver not possible
-  // {
-  //   type: "thematic",
-  //   resolvers: { region: "region" },
-  //   path: "/destination/:region/thematic/uid",
-  // },
-  // ----------------------------- //
-  {
-    type: "department",
-    resolvers: { region: "region" },
-    path: "/destination/:region/:uid",
-  },
-  {
-    type: "city",
-    resolvers: { department: "department", region: "department.region" },
-    path: "/destination/:region/:department/:uid",
+    path: ERoutingPath.HOMEPAGE,
   },
 ];
 
@@ -75,10 +50,9 @@ export const linkResolver: prismic.LinkResolverFunction = (
 ) => {
   switch (doc.type) {
     case "district": {
-      //! Check: "Forbidden: You don't have permission to access /auvergne-rhone-alpes/rhone/lyon/district-3 on this server.""
       //* City.URL provides full URL + district provides its own param
       const cityUrl = doc.data.city.url;
-      return `/${cityUrl}/${doc.uid}`;
+      return `${cityUrl}/${doc.uid}`;
     }
 
     //* No way to get "region" from here, getting region.uid not possible

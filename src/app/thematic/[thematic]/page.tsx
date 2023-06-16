@@ -1,8 +1,8 @@
-import { createClient } from "@/prismicio";
+import { createClient } from "@/routes/prismicio";
 import { Content, filter } from "@prismicio/client";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LinkComponent } from "@/components/link";
+import { LinkPrismicComponent } from "@/components/link";
 
 interface IProps {
   thematic: string;
@@ -31,10 +31,7 @@ export default async function Page({ params }: { params: IProps }) {
   // TODO: instead of hotels, get region/department/cities with current Thematic, on click -> /destination/:destination/thematic/:thematic
   const hotels = await client
     .getAllByType("hotel", {
-      filters: [
-        filter.at("my.hotel.thematics.thematic", page.id),
-        filter.at("my.hotel.city", "ZIA8ARUAACoAzgba"), // Annecy
-      ],
+      filters: [filter.at("my.hotel.thematics.thematic", page.id)],
     })
     .catch(() => notFound());
 
@@ -50,7 +47,9 @@ export default async function Page({ params }: { params: IProps }) {
         <h4 className="text-xl mb-6">Hôtels</h4>
         <div className="flex flex-wrap justify-center items-center gap-4">
           {hotels?.map((hotel: Content.HotelDocument) => (
-            <LinkComponent doc={hotel} text={hotel.data.name} key={hotel.id} />
+            <ul key={hotel.id}>
+              <li>{hotel.data.name}</li>
+            </ul>
           ))}
         </div>
       </div>

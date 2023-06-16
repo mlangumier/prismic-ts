@@ -1,8 +1,10 @@
-import { LinkComponent } from "@/components/link";
-import { createClient } from "@/prismicio";
+"use client";
+
+import { LinkNextComponent } from "@/components/link";
+import { createClient } from "@/routes/prismicio";
+import { ERoutingPath } from "@/routes/routes";
 import { filter } from "@prismicio/client";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 
 interface IProps {
   params: {
@@ -10,7 +12,6 @@ interface IProps {
   };
 }
 
-// TODO: useCallback or useMemo here ?
 const getPageData = async (uid: string) => {
   const client = createClient();
   const page = await client.getByUID("region", uid).catch(notFound);
@@ -19,45 +20,47 @@ const getPageData = async (uid: string) => {
     filters: [filter.at("my.department.region", page.id)],
   });
 
+  // TODO: display only thematics available for region
   const thematics = await client.getAllByType("thematic").catch(notFound);
 
   return { page, thematics, departments };
 };
 
-export async function generateMetadata({ params }: IProps): Promise<Metadata> {
-  const { page } = await getPageData(params.region);
-
-  return { title: page.data.meta_title || "Prismic TS" };
-}
-
 export default async function Page({ params }: IProps) {
+  const pathname = usePathname();
+
   const { page, thematics, departments } = await getPageData(params.region);
 
   return (
-    <div className="text-center m-auto">
-      <h2>Region: {page.data.name}</h2>
+    <>
+      <div className="py-8 max-w-[500px] m-auto text-center">
+        <h2>Region: {page.data.name}</h2>
+      </div>
 
-      <div className="mt-8">
+      <div className="py-4 text-center">
         <h4 className="my-2 uppercase">Departments</h4>
         <div className="flex flex-row justify-center items-center gap-2">
           {departments.map((dept) => (
-            <LinkComponent document={dept} key={dept.id}>
+            <LinkNextComponent href={`${pathname}/${dept.uid}`} key={dept.id}>
               {dept.data.name}
-            </LinkComponent>
+            </LinkNextComponent>
           ))}
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="py-4 text-center">
         <h4 className="my-2 uppercase">Thematics</h4>
         <div className="flex flex-row justify-center items-center gap-2">
           {thematics.map((thematic) => (
-            <LinkComponent document={thematic} key={thematic.id}>
+            <LinkNextComponent
+              href={`${pathname}/${ERoutingPath.THEMATIC}/${thematic.uid}`}
+              key={thematic.id}
+            >
               {thematic.data.label}
-            </LinkComponent>
+            </LinkNextComponent>
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }
