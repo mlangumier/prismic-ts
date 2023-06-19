@@ -20,8 +20,13 @@ const getPageData = async (thematicUid: string, districtUid: string) => {
     .catch(notFound);
 
   const hotels = await client.getAllByType("hotel", {
-    filters: [filter.at("my.hotel.thematics.thematic", thematic.id)],
+    filters: [
+      filter.at("my.hotel.thematics.thematic", thematic.id),
+      // filter.at("my.hotel.city.district", district.id),
+    ],
   });
+
+  // console.log("----Hotels", hotels.length);
 
   return { thematic, district, hotels };
 };

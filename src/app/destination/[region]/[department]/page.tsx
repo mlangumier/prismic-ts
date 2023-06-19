@@ -1,9 +1,9 @@
 "use client";
 
-import { LinkNextComponent } from "@/components/link";
-import { createClient } from "@/routes/prismicio";
-import { filter } from "@prismicio/client";
 import { notFound, usePathname } from "next/navigation";
+import { filter } from "@prismicio/client";
+import { createClient } from "@/routes/prismicio";
+import { LinkNextComponent } from "@/components/link";
 
 interface IProps {
   params: {
@@ -54,7 +54,7 @@ export default async function Page({ params }: IProps) {
       </h2>
 
       <div className="mt-8">
-        <h4 className="my-2 uppercase">Departments</h4>
+        <h4 className="my-2 uppercase">Cities</h4>
         <div className="flex flex-row justify-center items-center gap-2">
           {cities.map((city) => (
             <LinkNextComponent href={`${pathname}/${city.uid}`} key={city.id}>

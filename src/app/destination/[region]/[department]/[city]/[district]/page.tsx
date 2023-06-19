@@ -1,20 +1,35 @@
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/routes/prismicio";
 import { filter } from "@prismicio/client";
 
+interface IParams {
+  params: IProps;
+}
 interface IProps {
-  params: {
-    district: string;
-  };
+  city: string;
+  district: string;
 }
 
-const getPageData = async (districtUid: string) => {
+const getPageData = async (params: IProps) => {
   const client = createClient();
 
   const district = await client
-    .getByUID("district", districtUid)
+    .getByUID("district", params.district)
     .catch(notFound);
+
+  const city = await client
+    .getByUID("city", params.city, {
+      fetchLinks: ["department.region"],
+    })
+    .catch(notFound);
+
+  if (
+    district.data.city.uid !== params.city ||
+    city.data.department.uid !== params.department ||
+    city.data.department.data.region.uid !== params.region
+  ) {
+    notFound();
+  }
 
   const hotels = await client.getAllByType("hotel", {
     filters: [filter.at("my.hotel.city.district", district.id)],
@@ -33,14 +48,14 @@ const getPageData = async (districtUid: string) => {
   return { district };
 };
 
-export async function generateMetadata({ params }: IProps): Promise<Metadata> {
-  const { district } = await getPageData(params.district);
+// export async function generateMetadata({ params }: IParams): Promise<Metadata> {
+//   const { district } = await getPageData(params);
 
-  return { title: district.data.meta_title || district.data.name };
-}
+//   return { title: district.data.meta_title || district.data.name };
+// }
 
-export default async function Page({ params }: IProps) {
-  const { district } = await getPageData(params.district);
+export default async function Page({ params }: IParams) {
+  const { district } = await getPageData(params);
 
   return (
     <div className="text-center m-auto">
