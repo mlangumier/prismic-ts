@@ -1,35 +1,37 @@
+import { notFound } from "next/navigation";
 import { createClient } from "@/routes/prismicio";
 import { filter } from "@prismicio/client";
-import { notFound } from "next/navigation";
 
 interface IProps {
   uid: string;
   region: string;
 }
 
-const getPageData = async (thematicUid: string, regionUid: string) => {
+const getPageData = async (params: IProps) => {
   const client = createClient();
 
   const thematic = await client
-    .getByUID("thematic", thematicUid)
+    .getByUID("thematic", params.uid)
     .catch(notFound);
 
-  const region = await client.getByUID("region", regionUid).catch(notFound);
+  const region = await client.getByUID("region", params.region).catch(notFound);
 
   const hotels = await client
     .getAllByType("hotel", {
+      fetchLinks: ["city.department", "department.region"],
       filters: [filter.at("my.hotel.thematics.thematic", thematic.id)],
     })
     .catch(notFound);
 
-  return { thematic, region, hotels };
+  const hotelsInRegion = hotels.filter((hotel) => {
+    return hotel.data.city.data.department.data.region.uid === params.region;
+  });
+
+  return { thematic, region, hotels: hotelsInRegion };
 };
 
 export default async function Page({ params }: { params: IProps }) {
-  const { thematic, region, hotels } = await getPageData(
-    params.uid,
-    params.region
-  );
+  const { thematic, region, hotels } = await getPageData(params);
 
   return (
     <>

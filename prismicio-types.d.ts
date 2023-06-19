@@ -328,14 +328,25 @@ interface HotelDocumentData {
   /**
    * City field in *Hotel*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: hotel.city[]
+   * - **API ID Path**: hotel.city
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
    *
    */
-  city: prismic.GroupField<Simplify<HotelDocumentDataCityItem>>;
+  city: prismic.ContentRelationshipField<"city">;
+  /**
+   * District field in *Hotel*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hotel.district
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+   *
+   */
+  district: prismic.ContentRelationshipField<"district">;
   /**
    * Thematics field in *Hotel*
    *
@@ -402,32 +413,6 @@ interface HotelDocumentData {
    *
    */
   meta_title: prismic.KeyTextField;
-}
-/**
- * Item in Hotel → City
- *
- */
-export interface HotelDocumentDataCityItem {
-  /**
-   * City field in *Hotel → City*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hotel.city[].city
-   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-   *
-   */
-  city: prismic.ContentRelationshipField<"city">;
-  /**
-   * District field in *Hotel → City*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: hotel.city[].district
-   * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
-   *
-   */
-  district: prismic.ContentRelationshipField<"district">;
 }
 /**
  * Item in Hotel → Thematics
@@ -983,7 +968,6 @@ declare module "@prismicio/client" {
       HomepageDocumentDataSlicesSlice,
       HomepageDocument,
       HotelDocumentData,
-      HotelDocumentDataCityItem,
       HotelDocumentDataThematicsItem,
       HotelDocument,
       RegionDocumentData,

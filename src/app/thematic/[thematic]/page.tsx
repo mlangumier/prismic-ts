@@ -1,8 +1,7 @@
-import { createClient } from "@/routes/prismicio";
-import { Content, filter } from "@prismicio/client";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LinkPrismicComponent } from "@/components/link";
+import { createClient } from "@/routes/prismicio";
+import { Content, filter } from "@prismicio/client";
 
 interface IProps {
   thematic: string;

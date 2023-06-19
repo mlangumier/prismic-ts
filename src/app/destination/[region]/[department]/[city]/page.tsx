@@ -1,9 +1,9 @@
 "use client";
 
 import { notFound, usePathname } from "next/navigation";
-import { LinkNextComponent } from "@/components/link";
 import { filter } from "@prismicio/client";
 import { createClient } from "@/routes/prismicio";
+import { LinkNextComponent } from "@/components/link";
 
 interface IParams {
   params: IProps;
@@ -17,7 +17,7 @@ const getPageData = async (params: IProps) => {
 
   const city = await client
     .getByUID("city", params.city, {
-      fetchLinks: ["department.name", "department.region"],
+      fetchLinks: ["department.region"],
     })
     .catch(notFound);
 
