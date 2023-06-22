@@ -5,15 +5,19 @@ import { components } from "@/slices";
 import { notFound } from "next/navigation";
 import { ERoutingPath } from "@/routes/routes";
 
-async function getDocuments() {
+interface IProps {
+  lang: string;
+}
+
+async function getDocuments(lang: string) {
   const client = createClient();
 
   try {
-    const page = await client.getSingle("homepage");
+    const page = await client.getSingle("homepage", { lang });
 
-    const regions = await client.getAllByType("region");
+    const regions = await client.getAllByType("region", { lang });
 
-    const thematics = await client.getAllByType("thematic");
+    const thematics = await client.getAllByType("thematic", { lang });
 
     return { page, regions, thematics };
   } catch (error) {
@@ -22,8 +26,8 @@ async function getDocuments() {
   }
 }
 
-export default async function Home() {
-  const { page, regions, thematics } = await getDocuments();
+export default async function Home({ params }: { params: IProps }) {
+  const { page, regions, thematics } = await getDocuments(params.lang);
 
   return (
     <>
@@ -31,7 +35,7 @@ export default async function Home() {
         <PrismicRichText field={page.data.description} />
       </div>
 
-      {regions ? (
+      {regions.length ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Régions</h4>
           <div className="flex flex-wrap justify-center items-center gap-4">
@@ -47,13 +51,13 @@ export default async function Home() {
         </div>
       ) : null}
 
-      {thematics ? (
+      {thematics.length ? (
         <div className="text-center py-4">
           <h4 className="text-xl mb-6">Thématiques</h4>
           <div className="flex flex-wrap justify-center items-center gap-4">
             {thematics?.map((thematic) => (
               <LinkNextComponent
-                href={`${ERoutingPath.THEMATIC}/${thematic.uid}`}
+                href={`/${params.lang}${ERoutingPath.THEMATIC}/${thematic.uid}`}
                 key={thematic.id}
               >
                 {thematic.data.label}
