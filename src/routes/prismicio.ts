@@ -17,28 +17,13 @@ export const repositoryName = prismic.getRepositoryName(sm.apiEndpoint);
  * If fails, add a Link Resolver that will take priority, and keep Route Resolver as backup
  * {@link https://prismic.io/docs/route-resolver}
  *
- * * ----- Last URL propositions:
- *
- * /thematic/:thematicId
- * /destination/:regionId
- *! /destination/:regionId/thematic/:thematicId -> !== /thematic/:uid
- *
- * /destination/:regionId/:countyId
- ** /destination/:regionId/:countyId/thematic/:thematicId
- *
- * /destination/:regionId/:countyId/:cityId
- ** /destination/:regionId/:countyId/:cityId/thematic/:thematicId
- *
- * /destination/:regionId/:countyId/paris/:districtId
- ** /destination/:regionId/:countyId/paris/:districtId/thematic/:thematicId
- *
  */
 const routes: prismic.ClientConfig["routes"] = [
-  {
-    type: "homepage",
-    uid: "homepage",
-    path: ERoutingPath.HOMEPAGE,
-  },
+  // {
+  //   type: "homepage",
+  //   uid: "homepage",
+  //   path: ERoutingPath.HOMEPAGE,
+  // },
 ];
 
 /**

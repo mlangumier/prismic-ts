@@ -1,9 +1,10 @@
+import { notFound } from "next/navigation";
 import { LinkNextComponent } from "@/components/link";
 import { createClient } from "@/routes/prismicio";
 import { PrismicRichText, SliceZone } from "@prismicio/react";
 import { components } from "@/slices";
-import { notFound } from "next/navigation";
 import { ERoutingPath } from "@/routes/routes";
+import { getDictionary } from "../i18n/dicionaries";
 
 interface IProps {
   lang: string;
@@ -28,6 +29,9 @@ async function getDocuments(lang: string) {
 
 export default async function Home({ params }: { params: IProps }) {
   const { page, regions, thematics } = await getDocuments(params.lang);
+  const dictionary = await getDictionary(params.lang);
+
+  console.log("----Dictionary:", dictionary);
 
   return (
     <>
@@ -37,7 +41,7 @@ export default async function Home({ params }: { params: IProps }) {
 
       {regions.length ? (
         <div className="text-center py-4">
-          <h4 className="text-xl mb-6">Régions</h4>
+          <h4 className="text-xl mb-6">{dictionary.homepage.regions.title}</h4>
           <div className="flex flex-wrap justify-center items-center gap-4">
             {regions?.map((region) => (
               <LinkNextComponent
@@ -49,15 +53,22 @@ export default async function Home({ params }: { params: IProps }) {
             ))}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <p className="text-center py-4">
+          ({dictionary.homepage.regions.empty})
+        </p>
+      )}
 
       {thematics.length ? (
         <div className="text-center py-4">
-          <h4 className="text-xl mb-6">Thématiques</h4>
+          <h4 className="text-xl mb-6">
+            {dictionary.homepage.thematics.title}
+          </h4>
           <div className="flex flex-wrap justify-center items-center gap-4">
             {thematics?.map((thematic) => (
               <LinkNextComponent
                 href={`/${params.lang}${ERoutingPath.THEMATIC}/${thematic.uid}`}
+                locale={params.lang}
                 key={thematic.id}
               >
                 {thematic.data.label}
@@ -65,7 +76,11 @@ export default async function Home({ params }: { params: IProps }) {
             ))}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <p className="text-center py-4">
+          ({dictionary.homepage.thematics.empty})
+        </p>
+      )}
 
       <SliceZone slices={page.data.slices} components={components} />
     </>

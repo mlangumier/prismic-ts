@@ -1,9 +1,11 @@
+"use client";
+
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import { SettingsDocument } from "../../../prismicio-types";
 import { LinkNextComponent } from "@/components/link";
 import { createClient } from "@/routes/prismicio";
-import { notFound } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import { getLocales } from "@/lib/getLocales";
 import { PrismicNextLink } from "@prismicio/next";
 
@@ -71,6 +73,17 @@ async function Header({
   locales: any[];
   lang: string;
 }) {
+  const pathname = usePathname();
+
+  const redirectedPathname = (locale: string) => {
+    if (!pathname) return "/";
+
+    const segments = pathname.split("/");
+    segments[1] = locale;
+
+    return segments.join("/");
+  };
+
   return (
     <header className="bg-slate-50 mb-12 shadow-md py-4 px-6">
       <div className="flex justify-between items-center">
@@ -97,7 +110,7 @@ async function Header({
               return lang !== locale.lang ? (
                 <li className="" key={locale.lang}>
                   <PrismicNextLink
-                    href={locale.url || locale.lang}
+                    href={redirectedPathname(locale.lang)}
                     locale={locale.lang}
                     aria-label={`Change language to ${locale.lang_name}`}
                   >

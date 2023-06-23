@@ -10,17 +10,17 @@ interface IProps {
   children: ReactNode;
 }
 
-export async function generateMetaData(): Promise<Metadata> {
-  return {
-    title: {
-      template: "Prismic TS",
-      default: "Prismic TS",
-    },
-    icons: {
-      icon: "/favicon.ico",
-    },
-  };
-}
+// export async function generateMetaData(): Promise<Metadata> {
+//   return {
+//     title: {
+//       template: "Prismic TS",
+//       default: "Prismic TS",
+//     },
+//     icons: {
+//       icon: "/favicon.ico",
+//     },
+//   };
+// }
 
 export default async function RootLayout({ children }: IProps) {
   return (

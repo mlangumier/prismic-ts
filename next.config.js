@@ -11,10 +11,10 @@ module.exports = async () => {
     reactStrictMode: true,
 
     // Languages
-    i18n: {
-      locales,
-      // This is the default locale. It will not be included in URLs.
-      defaultLocale: locales[0],
-    },
+    // i18n: {
+    //   locales,
+    //   // This is the default locale. It will not be included in URLs.
+    //   defaultLocale: locales[0],
+    // },
   };
 };

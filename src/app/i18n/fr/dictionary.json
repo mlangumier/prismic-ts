@@ -1,0 +1,12 @@
+{
+  "homepage": {
+    "regions": {
+      "title": "Liste des régions disponibles",
+      "empty": "Aucune région trouvée"
+    },
+    "thematics": {
+      "title": "Liste des thématiques disponibles",
+      "empty": "Aucune thématique trouvée"
+    }
+  }
+}
