@@ -31,8 +31,6 @@ export default async function Home({ params }: { params: IProps }) {
   const { page, regions, thematics } = await getDocuments(params.lang);
   const dictionary = await getDictionary(params.lang);
 
-  console.log("----Dictionary:", dictionary);
-
   return (
     <>
       <div className="py-8 max-w-[500px] m-auto text-center">

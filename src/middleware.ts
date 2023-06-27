@@ -4,8 +4,6 @@ import Negotiator from "negotiator";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import { i18n } from "../i18n-config";
 
-const locales = ["en-US", "fr-FR"];
-
 function getLocale(request: NextRequest): string | undefined {
   // Negociator needs object -> we transform headers:
   const negociatorHeaders: Record<string, string> = {};
@@ -34,10 +32,6 @@ export function middleware(request: NextRequest) {
   // Redirect if no locale
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-
-    // console.log(
-    //   `----MIDDLEWARE:  ${request.nextUrl.origin}/${locale}${pathname}`
-    // );
 
     // add locale to request
     return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
