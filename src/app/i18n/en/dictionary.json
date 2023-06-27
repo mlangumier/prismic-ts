@@ -8,5 +8,10 @@
       "title": "List of available thematics",
       "empty": "No thematic found"
     }
+  },
+  "blog": {
+    "articles": {
+      "empty": "No articles found"
+    }
   }
 }

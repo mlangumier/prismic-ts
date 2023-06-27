@@ -30,27 +30,21 @@ const routes: prismic.ClientConfig["routes"] = [
  * The project's Prismic Link Resolver. This function determines the URL for a given Prismic document.
  * *Not necessary right now, but might be useful at some point
  */
-export const linkResolver: prismic.LinkResolverFunction = (
-  doc: FilledLinkToDocumentField
-) => {
-  switch (doc.type) {
-    case "district": {
-      //* City.URL provides full URL + district provides its own param
-      const cityUrl = doc.data.city.url;
-      return `${cityUrl}/${doc.uid}`;
-    }
+// export const linkResolver: prismic.LinkResolverFunction = (
+//   doc: FilledLinkToDocumentField
+// ) => {
+//   switch (doc.type) {
+//     case "district": {
+//       //* City.URL provides full URL + district provides its own param
+//       const cityUrl = doc.data.city.url;
+//       return `${cityUrl}/${doc.uid}`;
+//     }
 
-    //* No way to get "region" from here, getting region.uid not possible
-    // case "thematic": {
-    //   console.log("--- Thematic:", doc);
-    // return `/destination/${region.uid}/thematic/${doc.uid}`;
-    // }
-
-    default: {
-      return null;
-    }
-  }
-};
+//     default: {
+//       return null;
+//     }
+//   }
+// };
 
 /**
  * Creates a Prismic client for the project's repository. The client is used to
