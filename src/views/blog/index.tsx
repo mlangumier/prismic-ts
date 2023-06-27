@@ -18,6 +18,7 @@ interface IProps {
 export default function BlogView({ blog, articles, dictionary }: IProps) {
   const [searchTags, setSearchTags] = useState<string[]>([]);
   const [articleList, setArticleList] = useState(articles);
+  const [inclusiveSearch, setInclusiveSearch] = useState<boolean>(true);
   const client = createClient();
 
   useEffect(() => {
@@ -29,16 +30,17 @@ export default function BlogView({ blog, articles, dictionary }: IProps) {
       const articles = await client.getByType("article", {
         lang: blog.lang,
         filters: [
-          filter.at("document.tags", searchTags),
-          //   filter.any("document.tags", searchTags),
-          filter.not("document.type", "blog"),
+          inclusiveSearch === true
+            ? filter.any("document.tags", searchTags) // Inclusive search (articles with at least one of those tags)
+            : filter.at("document.tags", searchTags), // Exclusive search (articles with all those tags)
+          filter.not("document.type", "blog"), // Blog has tags but we don't want that page in the article list.
         ],
       });
       setArticleList(articles);
     };
 
     searchArticles();
-  }, [blog.lang, client, searchTags]);
+  }, [blog.lang, client, searchTags, inclusiveSearch]);
 
   const handleTagSelector = (tag: string) => {
     if (searchTags.find((t) => t === tag)) {
@@ -52,20 +54,30 @@ export default function BlogView({ blog, articles, dictionary }: IProps) {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center gap-2 my-8 p-4 border-t-[1px] border-b-[1px] border-slate-300">
-        {blog.tags.sort().map((tag: string) => (
-          <button
-            onClick={() => handleTagSelector(tag)}
-            key={tag}
-            className={`border-[1px] border-slate-300 rounded-full px-2 py-1 text-sm hover:bg-slate-200 ${
-              searchTags?.find((t) => t === tag)
-                ? "bg-slate-700 text-white hover:bg-slate-500"
-                : null
-            }`}
-          >
-            {tag}
-          </button>
-        ))}
+      <div className="my-8 p-4 border-t-[1px] border-b-[1px] border-slate-300">
+        <div className="mb-4 flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={inclusiveSearch}
+            onClick={() => setInclusiveSearch(!inclusiveSearch)}
+          />
+          <p>Inclusive search</p>
+        </div>
+        <div className="flex flex-wrap justify-center items-center gap-2">
+          {blog.tags.sort().map((tag: string) => (
+            <button
+              onClick={() => handleTagSelector(tag)}
+              key={tag}
+              className={`border-[1px] border-slate-300 rounded-full px-2 py-1 text-sm hover:bg-slate-200 ${
+                searchTags?.find((t) => t === tag)
+                  ? "bg-slate-700 text-white hover:bg-slate-500"
+                  : null
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
       </div>
 
       {articleList.results.length ? (
