@@ -24,7 +24,9 @@ const getPageData = async (params: IProps) => {
     .catch(notFound);
 
   const hotelsInRegion = hotels.filter((hotel) => {
-    return hotel.data.city.data.department.data.region.uid === params.region;
+    return (
+      (hotel.data.city as any).data.department.data.region.uid === params.region
+    );
   });
 
   return { thematic, region, hotels: hotelsInRegion };

@@ -10,6 +10,8 @@ interface IParams {
 }
 interface IProps {
   city: string;
+  department: string;
+  region: string;
 }
 
 const getPageData = async (params: IProps) => {
@@ -22,8 +24,8 @@ const getPageData = async (params: IProps) => {
     .catch(notFound);
 
   if (
-    city.data.department.uid !== params.department ||
-    city.data.department.data.region.uid !== params.region
+    (city.data.department as any).uid !== params.department ||
+    (city.data.department as any).data.region.uid !== params.region
   ) {
     notFound();
   }

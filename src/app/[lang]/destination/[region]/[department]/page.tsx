@@ -22,7 +22,7 @@ const getPageData = async (departmentUid: string, regionUid: string) => {
     .catch(notFound);
 
   // Check if url.params are logic
-  if (department.data.region.uid !== regionUid) {
+  if ((department.data.region as any).uid !== regionUid) {
     notFound();
   }
 
@@ -50,7 +50,8 @@ export default async function Page({ params }: IProps) {
   return (
     <div className="text-center m-auto">
       <h2>
-        Department: {department.data.name} ({department.data.region.data.name})
+        Department: {department.data.name} (
+        {(department.data.region as any).data.name})
       </h2>
 
       <div className="mt-8">
